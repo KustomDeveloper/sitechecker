@@ -1,5 +1,6 @@
 import { Client } from "https://deno.land/x/postgres/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
+import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
 //DB Creds
 export var client = new Client({
@@ -40,7 +41,7 @@ export async function createUser(client:any, first: string, last: string, email:
     await client.connect();
 
     const addUser = await client.queryObject`
-    INSERT INTO users (first_name, last_name, user_email, website_url) VALUES (${first}, ${last}, ${email})`;
+    INSERT INTO users (first_name, last_name, user_email) VALUES (${first}, ${last}, ${email})`;
 
     console.log('User Added!');
 
@@ -53,9 +54,12 @@ export async function createUser(client:any, first: string, last: string, email:
     SELECT user_id FROM users WHERE user_email = ${email};`;
     console.log(getId);
 
+    const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+    const url = ["http://yourwebsite.com"];
+
     //Add user_id to website table
     const addUserId = await client.queryObject`
-    INSERT INTO websites (user_id, website_url, website_status, website_last_checked) VALUES (${getId}, '', '', '')`;
+    INSERT INTO websites (user_id, website_url, website_status, website_last_checked) VALUES (${getId}, ${url}, 'Website is up!', ${currentTime})`;
    
     await client.end();
   }

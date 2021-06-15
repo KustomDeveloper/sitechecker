@@ -1,6 +1,5 @@
 import {Router} from "https://deno.land/x/oak/mod.ts";
-import fetchData from "./data.ts";
-import {client, create_user} from "./db.ts";
+import {client, createUser} from "./db.ts";
 
 const router = new Router();
 
