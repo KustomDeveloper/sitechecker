@@ -8,9 +8,10 @@ const PORT = 8000;
 const app = new Application(); 
 
 //Create tables
-//createTables(client, "connected");
+// createTables(client, "connected");
 
-createUser(client, "Johnny", "Appleseed", "jappleseed@gmail.com");
+//Create user
+createUser(client, "Johnny", "Appleseed", "jappleseed5@gmail.com");
 
 //Website checker
 //checkWebsite('http://kustomdesigner.com');

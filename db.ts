@@ -21,7 +21,7 @@ export async function createTables(client: any, msg: any) {
     
     //Create users table on database if not created yet
     const users_table = await client.queryObject`
-    CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, first_name varchar (50), last_name varchar (50), user_email varchar (50), website_url text[])`;
+    CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, first_name varchar (50), last_name varchar (50), user_email varchar (50))`;
 
     //Create websites table on database if not created yet
     const websites_table = await client.queryObject`
@@ -40,28 +40,45 @@ export async function createUser(client:any, first: string, last: string, email:
     //Connect to database
     await client.connect();
 
-    const addUser = await client.queryObject`
+    const emailExists = await client.queryObject`
+    SELECT user_email FROM users WHERE user_email = ${email};`;
+
+    // console.log(emailExists.rows[0].user_email)
+    const emailcheck = emailExists.rows[0].user_email;
+
+    //If email doesn't exist, create user
+    if(emailcheck == undefined) {
+      const addUser = await client.queryObject`
     INSERT INTO users (first_name, last_name, user_email) VALUES (${first}, ${last}, ${email})`;
 
-    console.log('User Added!');
+      console.log('User Added!');
+
+      // Get user id
+      const getId = await client.queryObject`
+      SELECT user_id FROM users WHERE user_email = ${email};`;
+      // console.log(getId);
+
+      const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+      const url = ["http://yourwebsite.com"];
+
+      // console.log(currentTime);
+      // console.log(url);
+      // console.log(getId.rows[0].user_id);
+
+      //Add user_id to website table
+      const addUserId = await client.queryObject`
+      INSERT INTO websites (user_id, website_url, website_status, website_last_checked) VALUES (${getId.rows[0].user_id}, ${url}, 'Website is up!', ${currentTime})`;
+    
+      await client.end();
+    } else {
+      console.log('email already exists')
+    }
 
   } catch(err) {
    console.log(err);
 
   } finally {
-    // Get user id
-    const getId = await client.queryObject`
-    SELECT user_id FROM users WHERE user_email = ${email};`;
-    console.log(getId);
-
-    const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
-    const url = ["http://yourwebsite.com"];
-
-    //Add user_id to website table
-    const addUserId = await client.queryObject`
-    INSERT INTO websites (user_id, website_url, website_status, website_last_checked) VALUES (${getId}, ${url}, 'Website is up!', ${currentTime})`;
-   
-    await client.end();
+    console.log('finished')
   }
 }
 
