@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css">
+
+    <title>Register</title>
+  </head>
+  <body>
+    <h1>Register</h1>
+
+    <form id="register-user-form">
+      <div><label for="First Name">First Name</label><br/><input type="text" name="firstname" id="firstname" required></div>
+      <div><label for="Last Name">Last Name</label><br/><input type="text" name="firstname" id="lastname" required></div>
+      <div><label for="Email">Email</label><br/><input type="email" name="firstname" id="email" required></div>
+      <div><label for="Website">Website</label><br/><input type="text" name="firstname" id="website" required></div>
+      <div><input type="submit" value="submit" id="register-user"></div>
+    </form>
+
+    <script>
+      //Process form
+      jQuery('#register-user').on('click', (e) => {
+        e.preventDefault();
+        console.log('clicked');
+        
+        const firstname = jQuery('#firstname').val();
+        const lastname = jQuery('#lastname').val();
+        const email = jQuery('#email').val();
+        const website = jQuery('#website').val();
+
+        data = {
+          firstname,
+          lastname,
+          email,
+          website
+        }
+
+        console.log(data);
+
+        const body = JSON.stringify({data: data});
+        const url = "/register-user";
+
+        async function registerUser() {
+          const response = await fetch(
+            url,
+            {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: body,
+            },
+          );
+        };
+
+      });
+
+      registerUser();
+
+    </script>
+  </body>
+</html>

@@ -1,17 +1,27 @@
 import {Router} from "https://deno.land/x/oak/mod.ts";
+import fetchData from "./data.ts";
+import {client, create_user} from "./db.ts";
 
-const router = new Router;
+const router = new Router();
 
-// Define main routes
+//Routes
 router
-.get('/', (ctx) => {
-  ctx.render('../frontend/index.ejs');
+.get('/', async ({ response } : { response: any } ) => {
+  const body = await Deno.readTextFile(Deno.cwd() + './views/index.html')
+  response.body = body;
 })
-.get('/2', (ctx) => {
-  ctx.response.body = "Hello World 2!";
+.get('/register', async ({ response } : { response: any } ) => {
+  const body = await Deno.readTextFile(Deno.cwd() + './views/register.html')
+  response.body = body;
 })
-.get('/3', (ctx) => {
-  ctx.response.body = "Hello World 3!";
+.get('/3', async ({ response } : { response: any } ) => {
+  response.body = "Hello World 3!";
+})
+
+//Post
+.post('/register-user', async ({ response } : { response: any } ) => {
+   console.log(typeof response);
+  //create_user(client, "Dan", "Jones", "Danr@gmail.com", ["http://dan.com"]);
 })
 
 export default router;
