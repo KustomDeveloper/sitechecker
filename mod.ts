@@ -11,7 +11,7 @@ const app = new Application();
 // createTables(client, "connected");
 
 //Create user
-createUser(client, "Johnny", "Appleseed", "jappleseed5@gmail.com");
+createUser(client, "Johnny", "Appleseed", "jappleseed@gmail.com");
 
 //Website checker
 //checkWebsite('http://kustomdesigner.com');

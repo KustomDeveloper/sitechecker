@@ -43,11 +43,9 @@ export async function createUser(client:any, first: string, last: string, email:
     const emailExists = await client.queryObject`
     SELECT user_email FROM users WHERE user_email = ${email};`;
 
-    // console.log(emailExists.rows[0].user_email)
-    const emailcheck = emailExists.rows[0].user_email;
-
-    //If email doesn't exist, create user
-    if(emailcheck == undefined) {
+    if(emailExists.rows[0]) {
+      console.log('Email already exists!');
+    } else {
       const addUser = await client.queryObject`
     INSERT INTO users (first_name, last_name, user_email) VALUES (${first}, ${last}, ${email})`;
 
@@ -70,9 +68,7 @@ export async function createUser(client:any, first: string, last: string, email:
       INSERT INTO websites (user_id, website_url, website_status, website_last_checked) VALUES (${getId.rows[0].user_id}, ${url}, 'Website is up!', ${currentTime})`;
     
       await client.end();
-    } else {
-      console.log('email already exists')
-    }
+    } 
 
   } catch(err) {
    console.log(err);
