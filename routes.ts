@@ -1,5 +1,17 @@
 import {Router} from "https://deno.land/x/oak/mod.ts";
 import {client, createUser} from "./db.ts";
+import { create, verify, decode } from "https://deno.land/x/djwt@v2.2/mod.ts";
+
+async function createToken() {
+  const jwt = await create({ 
+    alg: "HS512", 
+    typ: "JWT" 
+  }, { 
+    foo: "bar" 
+  }, "secret")
+} 
+
+
 
 const router = new Router();
 

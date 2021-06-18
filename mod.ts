@@ -11,7 +11,7 @@ const app = new Application();
 // createTables(client, "connected");
 
 //Create user
-createUser(client, "Johnny", "Appleseed", "jappleseed@gmail.com");
+// createUser(client, "Michael", "Hicks", "kustomdesigner@gmail.com");
 
 //Website checker
 //checkWebsite('http://kustomdesigner.com');
@@ -21,7 +21,7 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 //encryptPassword('testing');
-//console.log(`Server Running on port: ${PORT}`);
+console.log(`Server Running on port: ${PORT}`);
 
 //Start server
 app.listen({port: PORT});

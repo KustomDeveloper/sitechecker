@@ -77,5 +77,3 @@ export async function createUser(client:any, first: string, last: string, email:
     console.log('finished')
   }
 }
-
-
