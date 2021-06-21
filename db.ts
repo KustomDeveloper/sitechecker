@@ -21,7 +21,7 @@ export async function createTables(client: any, msg: any) {
     
     //Create users table on database if not created yet
     const users_table = await client.queryObject`
-    CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, first_name varchar (50), last_name varchar (50), user_email varchar (50))`;
+    CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, first_name varchar (50), last_name varchar (50), user_email varchar (50), password varchar (35))`;
 
     //Create websites table on database if not created yet
     const websites_table = await client.queryObject`
@@ -35,7 +35,7 @@ export async function createTables(client: any, msg: any) {
 }
 
 //Create User
-export async function createUser(client:any, first: string, last: string, email: string) {
+export async function createUser(client:any, first: string, last: string, email: string, password: string) {
   try{
     //Connect to database
     await client.connect();
@@ -47,7 +47,7 @@ export async function createUser(client:any, first: string, last: string, email:
       console.log('Email already exists!');
     } else {
       const addUser = await client.queryObject`
-    INSERT INTO users (first_name, last_name, user_email) VALUES (${first}, ${last}, ${email})`;
+    INSERT INTO users (first_name, last_name, user_email, password) VALUES (${first}, ${last}, ${email}, ${password})`;
 
       console.log('User Added!');
 
@@ -57,7 +57,7 @@ export async function createUser(client:any, first: string, last: string, email:
       // console.log(getId);
 
       const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
-      const url = ["http://yourwebsite.com"];
+      const url = [""];
 
       // console.log(currentTime);
       // console.log(url);
@@ -71,9 +71,6 @@ export async function createUser(client:any, first: string, last: string, email:
     } 
 
   } catch(err) {
-   console.log(err);
-
-  } finally {
-    console.log('finished')
-  }
+     console.log(err);
+  } 
 }

@@ -14,21 +14,34 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
 
     <title>Register</title>
   </head>
   <body>
-    <h1>Register</h1>
-
-    <form id="register-user-form">
-      <div><label for="First Name">First Name</label><br/><input type="text" name="firstname" id="firstname" required></div>
-      <div><label for="Last Name">Last Name</label><br/><input type="text" name="firstname" id="lastname" required></div>
-      <div><label for="Email">Email</label><br/><input type="email" name="firstname" id="email" required></div>
-      <div><label for="Website">Website</label><br/><input type="text" name="firstname" id="website" required></div>
-      <div><input type="submit" value="submit" id="register-user"></div>
+    <form action="/regiter-user" method="POST" style="width:100%;max-width: 400px;margin: 50px auto 0;" id="register-user-form">
+      <h1>Register</h1>
+      <div class="form-group">
+        <label for="First Name">First Name</label>
+        <input type="text" name="firstname" class="form-control" id="firstname" required>
+      </div>
+      <div class="form-group">
+        <label for="Last Name">Last Name</label>
+        <input type="text" name="lastname" class="form-control" id="lastname" required>
+      </div>
+      <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" name="email" class="form-control" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="Password">Password</label>
+        <input type="password" name="pass" class="form-control" id="pass" required>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button type="submit" id="register-user" class="btn btn-primary">Submit</button>
+      </div>
     </form>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       //Process form
       jQuery('#register-user').on('click', (e) => {
@@ -38,13 +51,13 @@
         const firstname = jQuery('#firstname').val();
         const lastname = jQuery('#lastname').val();
         const email = jQuery('#email').val();
-        const website = jQuery('#website').val();
+        const pass = jQuery('#pass').val();
 
         data = {
           firstname,
           lastname,
           email,
-          website
+          pass
         }
 
         console.log(data);
@@ -63,9 +76,11 @@
           );
         };
 
+        registerUser();
+
       });
 
-      registerUser();
+   
 
     </script>
   </body>
