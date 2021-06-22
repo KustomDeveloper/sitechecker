@@ -26,14 +26,16 @@ router
 .get('/logout', logout)
 
 .post('/login-user', loginUser)
-.post('/register-user', registerUser)
+.post('/register-user', registerUser, ()=> {
+
+})
 
 
 //Create tables
 // createTables(client, "connected");
 
 //Create user
-createUser(client, "Michael", "Hicks", "kustomdesigner@gmail.com", "jklasjdklasjdljasld");
+// createUser(client, "Michael", "Hicks", "kustomdesigner@gmail.com", "jklasjdklasjdljasld");
 
 //Website checker
 //checkWebsite('http://kustomdesigner.com');

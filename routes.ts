@@ -27,9 +27,16 @@ export const registerUser = async (ctx: RouterContext) => {
     const email = body.data.email;
     const pass = body.data.pass;
 
-    console.log(firstName, lastName, email, pass);
+    // console.log(firstName, lastName, email, pass);
 
     createUser(client, firstName, lastName, email, pass);
+
+    ctx.response.body = { message: "User added!" };
+    ctx.response.status = 200;
+
+    //Redirect to login
+    // ctx.response.redirect("http://localhost:8000/login");
+
   } catch(err) {
     console.error(err);
   }
