@@ -44,8 +44,6 @@ export const registerUser = async (ctx: RouterContext) => {
       ctx.response.status = 200; //Success
     }
 
-
-
   } catch(err) {
     console.error(err);
     ctx.response.body = { message: "Registration Error" };
@@ -65,24 +63,36 @@ export const loginUser = async (ctx: RouterContext) => {
     SELECT user_email FROM users WHERE user_email = ${email};`;
 
     if(emailExists.rows[0]) {
-    //Check if password matches
-    const validPassword = await client.queryObject`
-    SELECT password FROM users WHERE user_email = ${email};`;
 
-    await client.end();
-      
-      if(pass === validPassword) {
-        ctx.response.body = { message: "ok" };
-        ctx.response.status = 200; //Success
-        console.log(email, pass);
+      //Get password from db
+      const validPassword = await client.queryObject`
+      SELECT password FROM users WHERE user_email = ${email};`;
+      await client.end();
+
+      const storedPass: any = validPassword.rows[0];
+      const realPass = storedPass.password;
+
+      if(storedPass) {
+        if(pass === realPass) {
+          ctx.response.body = { message: "ok" };
+          ctx.response.status = 200; //Success
+          console.log(200);
+        } else {
+          ctx.response.body = { message: "Incorrect email or password" };
+          ctx.response.status = 401; //Unauthorized
+          console.log("345")
+        }
+
       } else {
         ctx.response.body = { message: "Incorrect email or password" };
         ctx.response.status = 401; //Unauthorized
+        console.log("346")
       }
     
     } else {
       ctx.response.body = { message: "Incorrect email or password" };
       ctx.response.status = 401; //Unauthorized
+      console.log("347")
     }
 
   } catch(err) {
