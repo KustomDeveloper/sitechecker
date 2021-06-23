@@ -40,35 +40,21 @@ export async function createUser(client:any, first: string, last: string, email:
     //Connect to database
     await client.connect();
 
-    const emailExists = await client.queryObject`
-    SELECT user_email FROM users WHERE user_email = ${email};`;
-
-    if(emailExists.rows[0]) {
-      console.log('Email already exists!');
-    } else {
-      const addUser = await client.queryObject`
+    const addUser = await client.queryObject`
     INSERT INTO users (first_name, last_name, user_email, password) VALUES (${first}, ${last}, ${email}, ${password})`;
 
-      console.log('User Added!');
-
-      // Get user id
+      //Get user id
       const getId = await client.queryObject`
       SELECT user_id FROM users WHERE user_email = ${email};`;
-      // console.log(getId);
 
       const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
       const url = [""];
 
-      // console.log(currentTime);
-      // console.log(url);
-      // console.log(getId.rows[0].user_id);
-
       //Add user_id to website table
-      const addUserId = await client.queryObject`
-      INSERT INTO websites (user_id, website_url, website_status, website_last_checked) VALUES (${getId.rows[0].user_id}, ${url}, 'Website is up!', ${currentTime})`;
+      // const addUserId = await client.queryObject`
+      // INSERT INTO websites (user_id, website_url, website_status, website_last_checked) VALUES (${getId.rows[0].user_id}, ${url}, 'Website is up!', ${currentTime})`;
     
       await client.end();
-    } 
 
   } catch(err) {
      console.log(err);

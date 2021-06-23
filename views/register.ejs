@@ -41,12 +41,15 @@
         <button type="submit" id="register-user" class="btn btn-primary">Submit</button>
       </div>
     </form>
+    <div style="text-align:center;color: red;font-size: 14px;" class="register-errors"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       //Process form
       jQuery('#register-user').on('click', (e) => {
         e.preventDefault();
-        console.log('clicked');
+        var errors = []; 
+        var errorContainer = document.querySelector('.register-errors');
+        var ul = '<ul>';
         
         const firstname = jQuery('#firstname').val();
         const lastname = jQuery('#lastname').val();
@@ -58,6 +61,19 @@
           lastname,
           email,
           pass
+        }
+
+        if(data.firstname === "") {
+          errors.push("First Name field is blank");
+        }
+        if(data.lastname === "") {
+          errors.push("Last Name field is blank");
+        }
+        if(data.email === "") {
+          errors.push("Email field is blank");
+        }
+        if(data.pass === "") {
+          errors.push("Password field is blank");
         }
 
         console.log(data);
@@ -72,8 +88,53 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: body,
-            },
-          );
+            }).then(response => response.json())
+              .then(data => {
+              if(errors.length != 0) {
+                  errorContainer.innerHTML = "";
+                  errors.forEach(function(error) {
+                    ul += '<li>'+ error + '</li>';
+                  }); 
+                  ul += '</ul>';
+
+                  //Show errors
+                  errorContainer.innerHTML = ul;
+
+                } else {
+                  if(data.message != "ok" ) {
+                    errorContainer.innerHTML = "";
+                    errors.push(data.message);
+                    errors.forEach(function(error) {
+                    ul += '<li>'+ error + '</li>';
+                    }); 
+                    ul += '</ul>';
+
+                    //Show errors
+                    errorContainer.innerHTML = ul;
+
+                  } else {
+                    if(errors.length != 0) {
+                      errorContainer.innerHTML = "";
+                      errors.forEach(function(error) {
+                        ul += '<li>'+ error + '</li>';
+                      }); 
+                      ul += '</ul>';
+
+                      //Show errors
+                      errorContainer.innerHTML = ul;
+
+                    } else {
+                      //On Success: Redirect to login page
+                      window.location.href = `http://localhost:8000/login`;
+                    }
+                  }
+
+                }
+              
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
         };
 
         registerUser();

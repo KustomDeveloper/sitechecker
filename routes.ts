@@ -27,27 +27,67 @@ export const registerUser = async (ctx: RouterContext) => {
     const email = body.data.email;
     const pass = body.data.pass;
 
-    // console.log(firstName, lastName, email, pass);
+    //Check if email already exists
+    await client.connect();
+    const emailExists = await client.queryObject`
+    SELECT user_email FROM users WHERE user_email = ${email};`;
+    await client.end();
 
-    createUser(client, firstName, lastName, email, pass);
+    if(emailExists.rows[0]) {
+      ctx.response.body = { message: "Email already exists" };
+      ctx.response.status = 400; //Bad Request
 
-    ctx.response.body = { message: "User added!" };
-    ctx.response.status = 200;
+    } else {
+      //Create new user
+      createUser(client, firstName, lastName, email, pass);
+      ctx.response.body = { message: "ok" };
+      ctx.response.status = 200; //Success
+    }
 
-    //Redirect to login
-    // ctx.response.redirect("http://localhost:8000/login");
+
 
   } catch(err) {
     console.error(err);
+    ctx.response.body = { message: "Registration Error" };
+    ctx.response.status = 400; //Bad request
   }
 }
 
-export const loginUser = async (ctx: RouterContext, response: any) => {
+export const loginUser = async (ctx: RouterContext) => {
+  try {
     const body = await ctx.request.body().value;
     const email = body.data.email;
     const pass = body.data.pass;
 
-    console.log(email, pass);
+    //Check if email exists
+    await client.connect();
+    const emailExists = await client.queryObject`
+    SELECT user_email FROM users WHERE user_email = ${email};`;
+
+    if(emailExists.rows[0]) {
+    //Check if password matches
+    const validPassword = await client.queryObject`
+    SELECT password FROM users WHERE user_email = ${email};`;
+
+    await client.end();
+      
+      if(pass === validPassword) {
+        ctx.response.body = { message: "ok" };
+        ctx.response.status = 200; //Success
+        console.log(email, pass);
+      } else {
+        ctx.response.body = { message: "Incorrect email or password" };
+        ctx.response.status = 401; //Unauthorized
+      }
+    
+    } else {
+      ctx.response.body = { message: "Incorrect email or password" };
+      ctx.response.status = 401; //Unauthorized
+    }
+
+  } catch(err) {
+    console.error(err);
+  }
 }
 
 export const logout = async (ctx: RouterContext) => {
