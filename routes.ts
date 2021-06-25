@@ -1,7 +1,10 @@
 import {RouterContext} from "https://deno.land/x/oak/mod.ts";
 import {renderFileToString} from "https://deno.land/x/dejs@0.9.3/mod.ts";
 import {client, createUser} from "./db.ts";
-// import { create, verify, decode } from "https://deno.land/x/djwt@v2.2/mod.ts";
+import "https://deno.land/x/dotenv/load.ts";
+import { create, getNumericDate } from "https://deno.land/x/djwt@v2.2/mod.ts";
+import { setCookie } from "https://deno.land/std/http/cookie.ts";
+
 
 export const home = async (ctx: RouterContext) => {
   ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/index.ejs`, {});
@@ -30,7 +33,7 @@ export const registerUser = async (ctx: RouterContext) => {
     //Check if email already exists
     await client.connect();
     const emailExists = await client.queryObject`
-    SELECT user_email FROM users WHERE user_email = ${email};`;
+    SELECT user_email FROM users WHERE user_email = ${email}`;
     await client.end();
 
     if(emailExists.rows[0]) {
@@ -60,39 +63,72 @@ export const loginUser = async (ctx: RouterContext) => {
     //Check if email exists
     await client.connect();
     const emailExists = await client.queryObject`
-    SELECT user_email FROM users WHERE user_email = ${email};`;
+    SELECT user_email FROM users WHERE user_email = ${email}`;
 
     if(emailExists.rows[0]) {
-
-      //Get password from db
+      //Get password from database
       const validPassword = await client.queryObject`
-      SELECT password FROM users WHERE user_email = ${email};`;
-      await client.end();
-
+      SELECT password FROM users WHERE user_email = ${email}`;
+      
+      //Get object containing password
       const storedPass: any = validPassword.rows[0];
-      const realPass = storedPass.password;
-
+    
       if(storedPass) {
+        //Get password from object
+        const realPass = storedPass.password;
+
         if(pass === realPass) {
-          ctx.response.body = { message: "ok" };
+          //Get user id
+          const getId = await client.queryObject`
+          SELECT user_id FROM users WHERE user_email = ${email}`;
+
+          const userId: any = getId.rows[0];
+
+          //JWT Secret
+          const jwtSecret: string = Deno.env.get('JWT_SECRET') as string;
+
+          //Create token
+          const jwt = await create(
+            { alg: "HS512", typ: "JWT", exp: getNumericDate(60 * 60 * 24) },
+            { user_id: userId.user_id },
+            jwtSecret
+          );
+
+          //Set http only cookie with jwt token 
+          setCookie(ctx.response, { name: "authorization", value: jwt }); 
+
+          //close db connection
+          await client.end();
+
+          //Send valid response
           ctx.response.status = 200; //Success
-          console.log(200);
+
+          ctx.response.body = { 
+            message: "ok",
+          };
+
         } else {
+          //close db connection
+          await client.end();
+
           ctx.response.body = { message: "Incorrect email or password" };
           ctx.response.status = 401; //Unauthorized
-          console.log("345")
         }
 
       } else {
+        //close db connection
+        await client.end();
+
         ctx.response.body = { message: "Incorrect email or password" };
         ctx.response.status = 401; //Unauthorized
-        console.log("346")
       }
     
     } else {
+      //close db connection
+      await client.end();
+
       ctx.response.body = { message: "Incorrect email or password" };
       ctx.response.status = 401; //Unauthorized
-      console.log("347")
     }
 
   } catch(err) {

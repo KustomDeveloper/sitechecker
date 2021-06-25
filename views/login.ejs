@@ -39,11 +39,11 @@
 
     </form>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script>
     <script>
       //Process form
       jQuery('#login-user').on('click', (e) => {
         e.preventDefault();
-        console.log('clicked');
         
         const email = jQuery('#email').val();
         const pass = jQuery('#pass').val();
@@ -52,8 +52,6 @@
           email,
           pass
         }
-
-        console.log(data);
 
         const body = JSON.stringify({data: data});
         const url = "/login-user";
@@ -65,9 +63,17 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: body,
-            },
-          );
-        };
+            }).then(response => response.json())
+              .then(data => {
+                console.log(data);
+                if(data.message === "ok") {
+                  window.location.href = "http://localhost:8000/protected";  
+                }
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+        }
 
         loginUser();
       });
