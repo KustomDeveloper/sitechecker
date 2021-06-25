@@ -16,10 +16,10 @@ export async function authenticateUser(ctx: Context, next: any) {
       console.log('middleware ran!');
       await next();
 
-      ctx.response.status = 200
-      ctx.response.body = {
-        "message" : "ok"
-      }
+      // ctx.response.status = 200
+      // ctx.response.body = {
+      //   "message" : "ok"
+      // }
 
     } else {
       ctx.response.status = 401

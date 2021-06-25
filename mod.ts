@@ -1,6 +1,6 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
-import { home, login, register, protectedRoute, registerUser, loginUser, logout } from "./routes.ts";
-import { createTables, client, createUser } from "./db.ts";
+import { home, login, register, dashboard, registerUser, loginUser, logout } from "./routes.ts";
+import { createTables, client } from "./db.ts";
 import { authenticateUser } from "./authenticate.ts";
 import encryptPassword from "./auth.ts";
 import checkWebsite from "./sitechecker.ts";
@@ -12,10 +12,10 @@ const router = new Router();
 
 //Routes
 router
-.get('/', authenticateUser, home)
+.get('/', home)
 .get('/login', login)
 .get('/register', register)
-.get('/protected', protectedRoute)
+.get('/dashboard', authenticateUser, dashboard)
 .get('/logout', logout)
 
 .post('/login-user', loginUser)
@@ -23,12 +23,8 @@ router
 
 })
 
-
 //Create tables
 // createTables(client, "connected");
-
-//Create user
-// createUser(client, "Michael", "Hicks", "kustomdesigner@gmail.com", "jklasjdklasjdljasld");
 
 //Website checker
 //checkWebsite('http://kustomdesigner.com');

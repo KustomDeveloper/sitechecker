@@ -18,8 +18,8 @@ export const login = async (ctx: RouterContext) => {
   ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/login.ejs`, {});
 }
 
-export const protectedRoute = async (ctx: RouterContext) => {
-  ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/protected.ejs`, {});
+export const dashboard = async (ctx: RouterContext) => {
+  ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {});
 }
 
 export const registerUser = async (ctx: RouterContext) => {
