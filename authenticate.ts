@@ -1,4 +1,5 @@
-import {Context} from "https://deno.land/x/oak/mod.ts";
+import {Context } from "https://deno.land/x/oak/mod.ts";
+import { renderFileToString } from "https://deno.land/x/dejs@0.9.3/mod.ts";
 import { verify, decode } from "https://deno.land/x/djwt@v2.2/mod.ts";
 import { getCookies } from "https://deno.land/std/http/cookie.ts";
 import "https://deno.land/x/dotenv/load.ts";
@@ -11,22 +12,15 @@ export async function authenticateUser(ctx: Context, next: any) {
 
     if(token != "" || token != null || token != undefined) {
         const payload = await verify(token, secret, "HS512"); 
-        console.log('middleware ran!');
-        await next();
-  
+          if(payload) await next();
       } else {
-        ctx.response.status = 401
-        ctx.response.body = {
-          "message" : "Unauthorized User"
-        }
+        ctx.response.status = 401;
+        ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/unauthorized.ejs`, {});
     }
     
   } catch(err) {
-    // console.error(err);
-    ctx.response.status = 401
-    ctx.response.body = {
-      "message" : "Unauthorized User"
-    }
+    ctx.response.status = 401;
+    ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/unauthorized.ejs`, {});
   }
 
 }

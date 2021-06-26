@@ -13,11 +13,39 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./style.css">
-    <title>Homepage | Welcome</title>
+    <title>Dashboard</title>
   </head>
 
-
   <body>
-    <h1>Welcome</h1>
+    <h1>Dashboard</h1>
+    <% if (name) { %>
+      <p>hello, <%= name %>!</p>
+    <% } %>
+
+    <form action="?" method="POST "style="width:100%;max-width: 400px;margin: 50px auto 0;" id="add-website-form"></form>
+      <div class="form-group">
+        <label for="Website url">Website Url</label>
+        <input type="text" class="form-control" name="pass" id="pass"  required>
+        <button type="submit" id="add-website" class="btn btn-primary">Add website</button>
+      </div>
+
+    </form>
+
+    <script>
+        function isURL(str) {
+          var pattern = new RegExp('^((ft|htt)ps?:\\/\\/)?'+ // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name and extension
+          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+          '(\\:\\d+)?'+ // port
+          '(\\/[-a-z\\d%@_.~+&:]*)*'+ // path
+          '(\\?[;&a-z\\d%@_.,~+&:=-]*)?'+ // query string
+          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+          return pattern.test(str);
+        }
+
+        let url = "google.com";
+
+        console.log(isURL(url));
+    </script>
   </body>
 </html>

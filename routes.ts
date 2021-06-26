@@ -1,6 +1,6 @@
-import {RouterContext} from "https://deno.land/x/oak/mod.ts";
-import {renderFileToString} from "https://deno.land/x/dejs@0.9.3/mod.ts";
-import {client, createUser} from "./db.ts";
+import { RouterContext } from "https://deno.land/x/oak/mod.ts";
+import { renderFileToString } from "https://deno.land/x/dejs@0.9.3/mod.ts";
+import { client, createUser } from "./db.ts";
 import "https://deno.land/x/dotenv/load.ts";
 import { create, getNumericDate } from "https://deno.land/x/djwt@v2.2/mod.ts";
 import { setCookie } from "https://deno.land/std/http/cookie.ts";
@@ -19,7 +19,7 @@ export const login = async (ctx: RouterContext) => {
 }
 
 export const dashboard = async (ctx: RouterContext) => {
-  ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {});
+  ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {name: "Mike"});
 }
 
 export const registerUser = async (ctx: RouterContext) => {
