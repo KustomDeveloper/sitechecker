@@ -1,9 +1,12 @@
 
   <%- await include('views/partials/header.ejs', { title: 'Dashboard' }) %>
 
-    <h1>Dashboard</h1>
+  
    
-    <form action="?" method="POST "style="width:100%;max-width: 400px;margin: 50px auto 0;" id="add-website-form"></form>
+    <form action="?" method="POST" id="add-website-form">
+      <h1>Dashboard</h1>
+
+      <h2>Add a website</h2>
       <div class="form-group">
         <label for="Website url">Website Url</label>
         <input type="text" class="form-control" name="pass" id="pass"  required>
@@ -11,22 +14,5 @@
       </div>
 
     </form>
-
-    <script>
-      function isURL(str) {
-        var pattern = new RegExp('^((ft|htt)ps?:\\/\\/)?'+ // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name and extension
-        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-        '(\\:\\d+)?'+ // port
-        '(\\/[-a-z\\d%@_.~+&:]*)*'+ // path
-        '(\\?[;&a-z\\d%@_.,~+&:=-]*)?'+ // query string
-        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-        return pattern.test(str);
-      }
-
-      let url = "google.com";
-
-      console.log(isURL(url));
-    </script>
 
     <%- await include('views/partials/footer.ejs', {}) %>

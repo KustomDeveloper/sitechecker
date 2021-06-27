@@ -4,6 +4,7 @@ import { createTables, client } from "./db.ts";
 import { authenticateUser } from "./authenticate.ts";
 import encryptPassword from "./auth.ts";
 import checkWebsite from "./sitechecker.ts";
+import { staticFileMiddleware } from "./staticFileMiddleware.ts";
 
 const PORT = 8000;
 const app = new Application(); 
@@ -12,11 +13,11 @@ const router = new Router();
 
 //Routes
 router
-.get('/css/:path+', async (ctx) => {
-  await send(ctx, ctx.request.url.pathname, {
-    root: Deno.cwd(),
-  })
-})
+// .get('/css/:path+', async (ctx) => {
+//   await send(ctx, ctx.request.url.pathname, {
+//     root: Deno.cwd(),
+//   })
+// })
 .get('/', home)
 .get('/login', login)
 .get('/register', register)
@@ -37,6 +38,7 @@ router
 //Add routes
 app.use(router.routes());
 app.use(router.allowedMethods());
+app.use(staticFileMiddleware);
 
 //encryptPassword('testing');
 console.log(`Server Running on port: ${PORT}`);

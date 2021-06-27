@@ -9,19 +9,15 @@ import { setCookie } from "https://deno.land/std/http/cookie.ts";
 export const home = async (ctx: RouterContext) => {
   ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/index.ejs`, {});
 }
-
 export const register = async (ctx: RouterContext) => {
   ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/register.ejs`, {});
 }
-
 export const login = async (ctx: RouterContext) => {
   ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/login.ejs`, {});
 }
-
 export const dashboard = async (ctx: RouterContext) => {
   ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {name: "Mike"});
 }
-
 export const registerUser = async (ctx: RouterContext) => {
   try{
     const body = await ctx.request.body().value;
@@ -53,7 +49,6 @@ export const registerUser = async (ctx: RouterContext) => {
     ctx.response.status = 400; //Bad request
   }
 }
-
 export const loginUser = async (ctx: RouterContext) => {
   try {
     const body = await ctx.request.body().value;
@@ -135,23 +130,6 @@ export const loginUser = async (ctx: RouterContext) => {
     console.error(err);
   }
 }
-
 export const logout = async (ctx: RouterContext) => {
   ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/protected.ejs`, {});
 }
-
-
-
-
-
-// async function createToken() {
-//   const jwt = await create({ 
-//     alg: "HS512", 
-//     typ: "JWT" 
-//   }, { 
-//     foo: "bar" 
-//   }, "secret")
-// } 
-
-
-// export default routes;
