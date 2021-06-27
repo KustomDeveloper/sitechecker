@@ -1,4 +1,4 @@
-import { Application, Router } from "https://deno.land/x/oak/mod.ts";
+import { Application, Router, send } from "https://deno.land/x/oak/mod.ts";
 import { home, login, register, dashboard, registerUser, loginUser, logout } from "./routes.ts";
 import { createTables, client } from "./db.ts";
 import { authenticateUser } from "./authenticate.ts";
@@ -12,6 +12,11 @@ const router = new Router();
 
 //Routes
 router
+.get('/css/:path+', async (ctx) => {
+  await send(ctx, ctx.request.url.pathname, {
+    root: Deno.cwd(),
+  })
+})
 .get('/', home)
 .get('/login', login)
 .get('/register', register)
@@ -38,7 +43,7 @@ console.log(`Server Running on port: ${PORT}`);
 
 //Show errors that would otherwise be hidden 
 app.addEventListener('error', event => {
-  //console.log(event.error);
+  console.log(event.error);
 })
 
 //Start server
