@@ -130,6 +130,32 @@ export const loginUser = async (ctx: RouterContext) => {
     console.error(err);
   }
 }
+export const addWebsite = async (ctx: RouterContext) => {
+  try{
+    const body = await ctx.request.body().value;
+    const website = body.data.website;
+
+    if(website) {
+      await client.connect();
+
+      // const addUrl = await client.queryObject`CREATE website youruser WITH ENCRYPTED PASSWORD 'yourpass';
+      // `;
+
+      //close db connection
+      await client.end();
+
+      ctx.response.body = { message: "ok" };
+      ctx.response.status = 200; //ok
+
+    }
+
+   
+  } catch(err) {
+    ctx.response.body = { message: "error" };
+    ctx.response.status = 500; //err
+  }
+
+}
 export const logout = async (ctx: RouterContext) => {
   ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/protected.ejs`, {});
 }

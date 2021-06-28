@@ -1,5 +1,5 @@
 import { Application, Router, send } from "https://deno.land/x/oak/mod.ts";
-import { home, login, register, dashboard, registerUser, loginUser, logout } from "./routes.ts";
+import { home, login, register, dashboard, registerUser, loginUser, addWebsite, logout } from "./routes.ts";
 import { createTables, client } from "./db.ts";
 import { authenticateUser } from "./authenticate.ts";
 import encryptPassword from "./auth.ts";
@@ -13,11 +13,6 @@ const router = new Router();
 
 //Routes
 router
-// .get('/css/:path+', async (ctx) => {
-//   await send(ctx, ctx.request.url.pathname, {
-//     root: Deno.cwd(),
-//   })
-// })
 .get('/', home)
 .get('/login', login)
 .get('/register', register)
@@ -25,9 +20,8 @@ router
 .get('/logout', logout)
 
 .post('/login-user', loginUser)
-.post('/register-user', registerUser, ()=> {
-
-})
+.post('/register-user', registerUser)
+.post('/add-website', addWebsite)
 
 //Create tables
 // createTables(client, "connected");

@@ -1,6 +1,5 @@
 import { Context, send } from "https://deno.land/x/oak/mod.ts";
 
-
 export const staticFileMiddleware = async (ctx: Context, next: Function) => {
   const path = `${Deno.cwd()}/static${ctx.request.url.pathname}`
 
