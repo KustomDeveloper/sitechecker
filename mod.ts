@@ -44,9 +44,9 @@ app.addEventListener('error', event => {
 })
 
 
-// Run Job in every 30 minutes
-cron('1 */1 * * * *', () => {
-    console.log('ran cron')
+// Run Job in every 5 minutes
+cron('1 */5 * * * *', () => {
+    console.log('ran cron: ' + new Date() )
 });
 
 //Start server
