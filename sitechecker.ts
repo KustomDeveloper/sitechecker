@@ -17,8 +17,6 @@ export async function checkWebsite(url: string, id: number) {
       update websites set website_status=${websiteStatus},website_last_checked=${currentTime} where website_id=${id}`;
       await client.end();
 
-      console.log("Website is up")
-
     } else {
       const websiteStatus: string = "Website is down"; 
       const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
@@ -28,8 +26,6 @@ export async function checkWebsite(url: string, id: number) {
       const updateStatus = await client.queryObject`
       update websites set website_status=${websiteStatus},website_last_checked=${currentTime} where website_id=${id}`;
       await client.end();
-
-      console.log("Website is down")
 
     }
     
@@ -44,7 +40,6 @@ export async function checkWebsite(url: string, id: number) {
     update websites set website_status=${websiteStatus},website_last_checked=${currentTime} where website_id=${id}`;
     await client.end();
 
-    console.log("Website is down")
   }
 }
 
@@ -55,7 +50,7 @@ export async function getAllWebsites() {
 
       //Get all websites
       const websites = await client.queryObject`SELECT * FROM websites`;
-      
+
       await client.end();
 
       return websites.rows

@@ -13,12 +13,17 @@
         <button type="submit" id="add-website-submit" class="btn btn-primary">Add website</button>
       </div>
     </form>
+    </div>
+    </div>
+    
+    <div class="container">
+      <div class="row">
     
     <% if (urls) { %>
       <div>
         <h2>Watchlist</h2>
         <% for(var i=0; i < urls.length; i++) { %>
-          <p><span><%= urls[i].website_url %></span><span><%= urls[i].website_status %></span></p>
+          <p><span class="website-url"><%= urls[i].website_url %></span><span class="website-status"><%= urls[i].website_status %></span></p>
         <% } %>
       </div>
     <% } %>

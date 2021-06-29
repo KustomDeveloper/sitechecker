@@ -20,7 +20,6 @@ h2 {
 #add-website-form {
   width:100%;
   max-width: 400px;
-  margin: 50px auto 0;
 }
 #add-website-form button {
   margin: 5px 0;
@@ -37,4 +36,14 @@ h2 {
 }
 label {
   font-size:small;
+}
+.website-url {
+  background: #eee;
+  padding: 5px;
+}
+.website-status {
+  margin-left:15px;
+  background: rgb(252, 249, 249);
+  padding: 5px;
+
 }

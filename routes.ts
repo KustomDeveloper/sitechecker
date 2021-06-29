@@ -194,7 +194,7 @@ export const addWebsite = async (ctx: RouterContext) => {
       await client.connect();
       
       //Add website to db
-      const addUrl = await client.queryObject`INSERT INTO websites (user_id, website_url, website_status, website_last_checked ) VALUES (${userId}, ${website}, '', ${currentTime})`;
+      const addUrl = await client.queryObject`INSERT INTO websites (user_id, website_url, website_status, website_last_checked ) VALUES (${userId}, ${website}, 'unknown', ${currentTime})`;
 
       //close db connection
       await client.end();
