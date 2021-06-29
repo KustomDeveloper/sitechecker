@@ -1,19 +1,68 @@
 import { soxa } from "https://deno.land/x/soxa/mod.ts";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
+import { client } from "./db.ts";
 
-
-async function checkWebsite(url: string) {
-  try{
+export async function checkWebsite(url: string, id: number) {
+  try {
     const result = await soxa.get(url);
-    if (result.status == 200) console.log('Website is up!') 
-    
-    // current date & time in YYYY-MM-DD hh:mm:ss format
-    const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
-    console.log(currentTime);
+    const status = await result.status;
 
-    } catch {
-      console.log('Website is down!')
+    if (status === 200) {
+      const websiteStatus: string = "Website is up"; 
+      const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+
+      //Add website up status
+      await client.connect();
+      const updateStatus = await client.queryObject`
+      update websites set website_status=${websiteStatus},website_last_checked=${currentTime} where website_id=${id}`;
+      await client.end();
+
+      console.log("Website is up")
+
+    } else {
+      const websiteStatus: string = "Website is down"; 
+      const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+
+      //Add website down status
+      await client.connect();
+      const updateStatus = await client.queryObject`
+      update websites set website_status=${websiteStatus},website_last_checked=${currentTime} where website_id=${id}`;
+      await client.end();
+
+      console.log("Website is down")
+
     }
+    
+  } catch(err) {
+    // console.log(err);
+    const websiteStatus: string = "Website is down"; 
+    const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+
+    //Add website down status
+    await client.connect();
+    const updateStatus = await client.queryObject`
+    update websites set website_status=${websiteStatus},website_last_checked=${currentTime} where website_id=${id}`;
+    await client.end();
+
+    console.log("Website is down")
+  }
 }
 
-export default checkWebsite;
+export async function getAllWebsites() {
+  try {
+
+      await client.connect();
+
+      //Get all websites
+      const websites = await client.queryObject`SELECT * FROM websites`;
+      
+      await client.end();
+
+      return websites.rows
+      
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+

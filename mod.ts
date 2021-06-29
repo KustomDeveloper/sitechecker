@@ -3,13 +3,12 @@ import { home, login, register, dashboard, registerUser, loginUser, addWebsite, 
 import { createTables, client } from "./db.ts";
 import { authenticateUser } from "./authenticate.ts";
 import encryptPassword from "./auth.ts";
-import checkWebsite from "./sitechecker.ts";
+import { checkWebsite, getAllWebsites } from "./sitechecker.ts";
 import { staticFileMiddleware } from "./staticFileMiddleware.ts";
 import {cron} from 'https://deno.land/x/deno_cron/cron.ts';
 
 const PORT = 8000;
 const app = new Application(); 
-
 const router = new Router();
 
 //Routes
@@ -24,11 +23,8 @@ router
 .post('/register-user', registerUser)
 .post('/add-website', addWebsite)
 
-//Create tables
+//Create tables if not created
 // createTables(client, "connected");
-
-//Website checker
-//checkWebsite('http://kustomdesigner.com');
 
 //Add routes
 app.use(router.routes());
@@ -43,11 +39,31 @@ app.addEventListener('error', event => {
   console.log(event.error);
 })
 
-
 // Run Job in every 5 minutes
 cron('1 */5 * * * *', () => {
-    console.log('ran cron: ' + new Date() )
-});
+  //Check website status every 5 minutes
+  (async () => {
+    try {
+      const websites:any = await getAllWebsites();
+      if(websites) {
+        for(let i=0; i < websites.length; i++) {
+          let url:string = websites[i].website_url;
+          let id:number = websites[i].website_id;
+
+          if(url) {
+            await checkWebsite(url, id);
+          } else {
+            console.log('error')
+          }
+        }
+      }
+    } catch(err) {
+      console.error(err);
+    }
+    
+  })();
+  
+})
 
 //Start server
 app.listen({port: PORT});
