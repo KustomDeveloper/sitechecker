@@ -23,10 +23,10 @@ export const dashboard = async (ctx: RouterContext) => {
     const token: string = jwt.authorization || ""; 
     
     //Decode jwt token
-    const [payload, signature, header] = decode(token);
+    const [header, payload, signature ] = decode(token);
 
     //Define object
-    const data: any = signature as object;
+    const data: any = payload as object;
 
     //Get user id
     const userId = data[Object.keys(data)[0]]
@@ -59,21 +59,26 @@ export const registerUser = async (ctx: RouterContext) => {
     const email = body.data.email;
     const pass = body.data.pass;
 
-    //Check if email already exists
-    await client.connect();
-    const emailExists = await client.queryObject`
-    SELECT user_email FROM users WHERE user_email = ${email}`;
-    await client.end();
+    if(firstName !== '' || lastName !== '' || email !== '' || pass !== '') {
+      //Check if email already exists
+      await client.connect();
+      const emailExists = await client.queryObject`
+      SELECT user_email FROM users WHERE user_email = ${email}`;
+      await client.end();
 
-    if(emailExists.rows[0]) {
-      ctx.response.body = { message: "Email already exists" };
-      ctx.response.status = 400; //Bad Request
+      if(emailExists.rows[0]) {
+        ctx.response.body = { message: "Email already exists" };
+        ctx.response.status = 400; //Bad Request
 
+      } else {
+        //Create new user
+        createUser(client, firstName, lastName, email, pass);
+        ctx.response.body = { message: "ok" };
+        ctx.response.status = 200; //Success
+      }
     } else {
-      //Create new user
-      createUser(client, firstName, lastName, email, pass);
-      ctx.response.body = { message: "ok" };
-      ctx.response.status = 200; //Success
+      ctx.response.body = { message: "Registration Error" };
+      ctx.response.status = 400; //Bad request
     }
 
   } catch(err) {
@@ -175,10 +180,10 @@ export const addWebsite = async (ctx: RouterContext) => {
       const token: string = jwt.authorization || ""; 
       
       //Decode jwt token
-      const [payload, signature, header] = decode(token);
+      const [header, payload, signature] = decode(token);
 
       //Define object
-      const data: any = signature as object;
+      const data: any = payload as object;
 
       //Get user id
       const userId = data[Object.keys(data)[0]]
@@ -194,7 +199,7 @@ export const addWebsite = async (ctx: RouterContext) => {
       //close db connection
       await client.end();
 
-      ctx.response.body = { message: `${website} added.` };
+      ctx.response.body = { message: "ok" };
       ctx.response.status = 200; //ok
 
     }

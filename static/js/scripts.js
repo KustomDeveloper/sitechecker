@@ -10,7 +10,7 @@ jQuery('#add-website-submit').on('click', function(e) {
     data = {
       website
     }
-    
+
     const body = JSON.stringify({data: data});
     const url = "/add-website";
   
@@ -23,7 +23,14 @@ jQuery('#add-website-submit').on('click', function(e) {
         body: body,
         }).then(response => response.json())
           .then(data => {
-            console.log(data) 
+           
+            if(data.message === "ok") {
+               console.log(data) 
+               window.location.reload();
+
+            } else {
+              console.log("There was an error.")
+            }
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -162,14 +169,13 @@ jQuery('#register-user').on('click', (e) => {
   if(data.lastname === "") {
     errors.push("Last Name field is blank");
   }
-  if(data.email === "") {
-    errors.push("Email field is blank");
-  }
   if(data.pass === "") {
     errors.push("Password field is blank");
   }
 
-  //console.log(data);
+  if(!validateEmail(data.email)) {
+    errors.push("Email is invalid");
+  }
 
   const body = JSON.stringify({data: data});
   const url = "/register-user";
@@ -233,6 +239,16 @@ jQuery('#register-user').on('click', (e) => {
   registerUser();
 
 });
+
+//Check if email is valid
+function validateEmail($email) {
+  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+  if($email !== "") {
+    return emailReg.test( $email );
+  } else {
+    return false;
+  }
+}
 
 //Check if url is valid
 function isUrlValid(url) {
