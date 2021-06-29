@@ -5,6 +5,7 @@ import { authenticateUser } from "./authenticate.ts";
 import encryptPassword from "./auth.ts";
 import checkWebsite from "./sitechecker.ts";
 import { staticFileMiddleware } from "./staticFileMiddleware.ts";
+import {cron} from 'https://deno.land/x/deno_cron/cron.ts';
 
 const PORT = 8000;
 const app = new Application(); 
@@ -41,6 +42,12 @@ console.log(`Server Running on port: ${PORT}`);
 app.addEventListener('error', event => {
   console.log(event.error);
 })
+
+
+// Run Job in every 30 minutes
+cron('1 */1 * * * *', () => {
+    console.log('ran cron')
+});
 
 //Start server
 app.listen({port: PORT});

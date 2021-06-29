@@ -1,4 +1,4 @@
-import { soxa } from 'https://deno.land/x/soxa/mod.ts';
+import { soxa } from "https://deno.land/x/soxa/mod.ts";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
 

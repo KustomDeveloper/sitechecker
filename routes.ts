@@ -2,8 +2,9 @@ import { RouterContext } from "https://deno.land/x/oak/mod.ts";
 import { renderFileToString } from "https://deno.land/x/dejs@0.9.3/mod.ts";
 import { client, createUser } from "./db.ts";
 import "https://deno.land/x/dotenv/load.ts";
-import { create, getNumericDate } from "https://deno.land/x/djwt@v2.2/mod.ts";
-import { setCookie } from "https://deno.land/std/http/cookie.ts";
+import { create, getNumericDate, decode } from "https://deno.land/x/djwt@v2.2/mod.ts";
+import { setCookie, getCookies } from "https://deno.land/std/http/cookie.ts";
+import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
 
 export const home = async (ctx: RouterContext) => {
@@ -16,7 +17,39 @@ export const login = async (ctx: RouterContext) => {
   ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/login.ejs`, {});
 }
 export const dashboard = async (ctx: RouterContext) => {
-  ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {name: "Mike"});
+  try {
+    //Get cookie values
+    const jwt = getCookies(ctx.request);
+    const token: string = jwt.authorization || ""; 
+    
+    //Decode jwt token
+    const [payload, signature, header] = decode(token);
+
+    //Define object
+    const data: any = signature as object;
+
+    //Get user id
+    const userId = data[Object.keys(data)[0]]
+
+    //Connect and get website urls
+    await client.connect();
+
+    const websites = await client.queryObject`
+      SELECT * FROM websites WHERE user_id = ${userId}`;
+
+    await client.end();
+
+    const urls = await websites.rows;
+
+    if(urls) {
+      ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {urls});
+    } else { 
+      ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {});
+    }
+
+    } catch(err) {
+      console.error(err)
+    }
 }
 export const registerUser = async (ctx: RouterContext) => {
   try{
@@ -136,20 +169,36 @@ export const addWebsite = async (ctx: RouterContext) => {
     const website = body.data.website;
 
     if(website) {
-      await client.connect();
 
-      // const addUrl = await client.queryObject`CREATE website youruser WITH ENCRYPTED PASSWORD 'yourpass';
-      // `;
+      //Get cookie values
+      const jwt = getCookies(ctx.request);
+      const token: string = jwt.authorization || ""; 
+      
+      //Decode jwt token
+      const [payload, signature, header] = decode(token);
+
+      //Define object
+      const data: any = signature as object;
+
+      //Get user id
+      const userId = data[Object.keys(data)[0]]
+      
+      //Get current date/time
+      const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+
+      await client.connect();
+      
+      //Add website to db
+      const addUrl = await client.queryObject`INSERT INTO websites (user_id, website_url, website_status, website_last_checked ) VALUES (${userId}, ${website}, '', ${currentTime})`;
 
       //close db connection
       await client.end();
 
-      ctx.response.body = { message: "ok" };
+      ctx.response.body = { message: `${website} added.` };
       ctx.response.status = 200; //ok
 
     }
 
-   
   } catch(err) {
     ctx.response.body = { message: "error" };
     ctx.response.status = 500; //err
