@@ -1,3 +1,12 @@
 <%- await include('views/partials/header.ejs', { title: 'Unauthorized' }) %>
-    <h1>You are not authorized to access this page</h1>
+<div class="container">
+    <h1 class="unauth-title">You are not authorized to access this page</h1>
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 unauth-btns"><a href="/login"><button type="button" class="btn btn-primary">Login</button><a href="/Register"><button type="button" class="btn btn-primary">Register</button></a></div>
+    <div class="col-md-4"></div>
+  </div>
+</div>
+
+
 <%- await include('views/partials/footer.ejs', {}) %>

@@ -17,8 +17,8 @@ router
 .get('/login', login)
 .get('/register', register)
 .get('/dashboard', authenticateUser, dashboard)
-.get('/logout', logout)
 
+.post('/logout', logout)
 .post('/login-user', loginUser)
 .post('/register-user', registerUser)
 .post('/add-website', addWebsite)

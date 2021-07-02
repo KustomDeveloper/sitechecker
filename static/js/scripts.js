@@ -1,5 +1,42 @@
-
+//Define
 var isValid = false;
+
+jQuery('.logout-link').on('click', function(e) {
+  e.preventDefault();
+  const logout = true;
+
+  data = {
+    logout
+  }
+
+  const body = JSON.stringify({data: data});
+  const url = "/logout";
+
+  async function logOut() {
+    const response = await fetch(
+      url,
+      {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: body,
+      }).then(response => response.json())
+        .then(data => {
+         
+          if(data.message === "ok") {
+            window.location.href = "http://localhost:8000/login" 
+
+          } else {
+            console.log("There was an error.")
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+  }
+
+  logOut();
+
+})
 
 jQuery('#add-website-submit').on('click', function(e) {
   e.preventDefault();

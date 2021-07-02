@@ -1,4 +1,4 @@
-<%- await include('views/partials/header.ejs', { title: 'Dashboard' }) %>
+<%- await include('views/partials/auth-header.ejs', { title: 'Dashboard' }) %>
 
 <div class="container">
   <div class="row">
@@ -15,13 +15,13 @@
     </form>
     </div>
     </div>
-    
+
     <div class="container">
       <div class="row">
     
     <% if (urls) { %>
       <div>
-        <h2>Watchlist</h2>
+        <h5>Watchlist</h5>
         <% for(var i=0; i < urls.length; i++) { %>
           <p><span class="website-url"><%= urls[i].website_url %></span><span class="website-status"><%= urls[i].website_status %></span></p>
         <% } %>

@@ -1,21 +1,88 @@
-header {
-  background: #16285B;
+@font-face {
+  font-family: ProximaNova;
+  src: url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_1_0.eot);
+  src: url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_1_0.eot?#iefix) format("embedded-opentype"),url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_1_0.woff2) format("woff2"),url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_1_0.woff) format("woff"),url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_1_0.ttf) format("truetype"),url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_1_0.svg#wf) format("svg");
+  font-weight: 300;
+  font-style: normal
+}
 
+@font-face {
+  font-family: ProximaNova;
+  src: url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_4_0.eot);
+  src: url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_4_0.eot?#iefix) format("embedded-opentype"),url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_4_0.woff2) format("woff2"),url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_4_0.woff) format("woff"),url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_4_0.ttf) format("truetype"),url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_4_0.svg#wf) format("svg");
+  font-weight: 400;
+  font-style: normal
+}
+
+@font-face {
+  font-family: ProximaNova;
+  src: url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_5_0.eot);
+  src: url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_5_0.eot?#iefix) format("embedded-opentype"),url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_5_0.woff2) format("woff2"),url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_5_0.woff) format("woff"),url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_5_0.ttf) format("truetype"),url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_5_0.svg#wf) format("svg");
+  font-weight: 700;
+  font-style: normal
+}
+body {
+  font-family: 'ProximaNova', sans-serif;
+}
+header {
+  background: #2B373D;
+}
+.home-banner {
+  background: #1B262D;
+}
+.home-banner h1 {
+  color: #fff;
+  width: 100%;
+  font-size: 42px;
+  text-transform: Capitalize;
+  text-align: center;
+  margin: 40px 0 15px;
+}
+.home-banner p {
+  font-weight: 300; 
+  text-align: center;
+  color: #89909e;
+  font-size: 24px;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+.home-banner img {
+  display: block;
+  max-width: 500px;
+  margin: 15px auto;
 }
 nav {
-  display: inline-block;
-  
+  align-content: flex-end;
+  margin-top: 40px;
 }
-.logo {
+nav a {
+  color: #767d8c;
+  padding-right: 15px;
+  font-weight: bold;
+}
+nav a:hover {
+  color: #C5C8CA;
+  text-decoration: none;
+}
+nav ul {
+  text-align: right;
+}
+nav ul li {
+  display: inline-block;
+}
+.logo img {
   width: 100%;
   max-width: 200px;
+  padding: 10px 0;
 }
 form div {
   margin-bottom:10px;
 }
 h1 {
   font-size: 32px;
-  margin-bottom: 50px;
+  margin: 30px 0 50px;
+  color: #17285b;
+  font-weight: 700;
 }
 h2 {
   font-size: 24px;
@@ -51,11 +118,20 @@ label {
 }
 .website-url {
   background: #eee;
-  padding: 5px;
+  padding: 5px 10px;
 }
 .website-status {
   margin-left:15px;
   background: rgb(252, 249, 249);
-  padding: 5px;
-
+  padding: 5px 10px;
+}
+.unauth-title {
+  font-size: 32px;
+  text-align: center;
+}
+.unauth-btns {
+  text-align: center;
+}
+.unauth-btns button {
+  margin-right: 15px;
 }

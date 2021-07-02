@@ -3,7 +3,7 @@ import { renderFileToString } from "https://deno.land/x/dejs@0.9.3/mod.ts";
 import { client, createUser } from "./db.ts";
 import "https://deno.land/x/dotenv/load.ts";
 import { create, getNumericDate, decode } from "https://deno.land/x/djwt@v2.2/mod.ts";
-import { setCookie, getCookies } from "https://deno.land/std/http/cookie.ts";
+import { setCookie, getCookies, deleteCookie } from "https://deno.land/std/http/cookie.ts";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
 
@@ -211,5 +211,19 @@ export const addWebsite = async (ctx: RouterContext) => {
 
 }
 export const logout = async (ctx: RouterContext) => {
-  ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/protected.ejs`, {});
+  try {
+    const body = await ctx.request.body().value;
+    const logout = body.data.logout;
+
+    if(logout) {
+      deleteCookie(ctx.response, "authorization"); 
+
+      //Send ok response
+      ctx.response.body = { message: "ok" };
+      ctx.response.status = 200; //ok
+    } 
+
+  } catch(err) {
+    console.error(err);
+  } 
 }
