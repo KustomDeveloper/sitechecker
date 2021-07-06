@@ -5,7 +5,6 @@
   font-weight: 300;
   font-style: normal
 }
-
 @font-face {
   font-family: ProximaNova;
   src: url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_4_0.eot);
@@ -13,7 +12,6 @@
   font-weight: 400;
   font-style: normal
 }
-
 @font-face {
   font-family: ProximaNova;
   src: url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_5_0.eot);
@@ -30,26 +28,53 @@ header {
 .home-banner {
   background: #1B262D;
 }
+.home-banner .container {
+  max-width: 960px;
+}
 .home-banner h1 {
   color: #fff;
   width: 100%;
   font-size: 42px;
   text-transform: Capitalize;
-  text-align: center;
-  margin: 40px 0 15px;
+  text-align: left;
+  margin: 50px 0 15px;
 }
 .home-banner p {
   font-weight: 300; 
-  text-align: center;
+  text-align: left;
   color: #89909e;
-  font-size: 24px;
-  max-width: 800px;
-  margin: 0 auto 40px;
+  font-size: 27px;
+  margin: 10px auto 0;
+  display: block;
 }
 .home-banner img {
   display: block;
-  max-width: 500px;
+  width: 100%;
+  max-width: 400px;
   margin: 15px auto;
+}
+.home-banner a {
+  text-decoration: none;
+}
+.home-banner button {
+  color: #DCAA0E;
+  font-weight: 700;
+  font-size:24px;
+  padding: 20px 50px;
+  background: #000;
+  border:none;
+  margin: 20px 0 50px;
+  display: block;
+}
+.home-banner button i {
+  font-size: 20px;
+  margin-left:10px;
+}
+.half-wrap {
+  width: 50%;
+}
+.no-wrap {
+  width: 100%;
 }
 nav {
   align-content: flex-end;
@@ -69,6 +94,9 @@ nav ul {
 }
 nav ul li {
   display: inline-block;
+}
+.logo {
+  padding-left: 0;
 }
 .logo img {
   width: 100%;
@@ -116,14 +144,59 @@ h2 {
 label {
   font-size:small;
 }
-.website-url {
-  background: #eee;
-  padding: 5px 10px;
+.statusBlock {
+  background: #56B565;
+  margin: 2px 1px;
+  padding: 15px;
+  border-radius: 3px;
+  display: inline-block;
+  box-shadow: 0 0 3px 1px rgb(0 0 0 / 20%);
 }
-.website-status {
-  margin-left:15px;
-  background: rgb(252, 249, 249);
-  padding: 5px 10px;
+.website-url {
+  color:#fff;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+  font-size: 15px;
+}
+.statusBlock.website-down {
+  background: #B80915;
+}
+.watchlist-title {
+  width: 100%;
+}
+.legend {
+  font-size:13px;
+  float:right;
+  position: relative;
+  margin-right: 50px;
+}
+.legend .up {
+  position: relative;
+  right: 15px;
+  font-weight: bold;
+}
+.legend .up:before {
+  content:"";
+  width: 20px;
+  height: 20px;
+  background: green;
+  right: -25px;
+  top: -3px;
+  position: absolute;
+}
+.legend .down {
+  position: relative;
+  right: -20px;
+  font-weight: bold;
+}
+.legend .down:before {
+  content:"";
+  width: 20px;
+  height: 20px;
+  background: red;
+  right: -25px;
+  top: -3px;
+  position: absolute;
 }
 .unauth-title {
   font-size: 32px;

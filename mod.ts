@@ -39,7 +39,7 @@ app.addEventListener('error', event => {
   console.log(event.error);
 })
 
-// Run Job in every 5 minutes
+// Run cron job every 5 minutes
 cron('1 */5 * * * *', () => {
   //Check website status every 5 minutes
   (async () => {

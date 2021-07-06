@@ -45,18 +45,24 @@ export async function checkWebsite(url: string, id: number) {
 
 export async function getAllWebsites() {
   try {
-
       await client.connect();
 
       //Get all websites
       const websites = await client.queryObject`SELECT * FROM websites`;
 
-      await client.end();
+      const urls = await websites.rows;
 
-      return websites.rows
+      if(urls) {
+        return urls;
+        console.log(format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+      } else { 
+        console.log('No urls ' + format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+      }
       
   } catch(err) {
     console.log(err)
+  } finally {
+    await client.end();
   }
 }
 

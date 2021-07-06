@@ -21,9 +21,18 @@
     
     <% if (urls) { %>
       <div>
-        <h5>Watchlist</h5>
+        <h5 class="watchlist-title"><%= urls.length > 0 ? 'Watchlist' : '' %> 
+          <span class="legend">
+            <span class="up">UP</span>
+            <span class="down">DOWN</span>
+          </span></h5>
+        <% var cleanUrls = []; %>
         <% for(var i=0; i < urls.length; i++) { %>
-          <p><span class="website-url"><%= urls[i].website_url %></span><span class="website-status"><%= urls[i].website_status %></span></p>
+          <% cleanUrls.push(urls[i].website_url.replace(/(^\w+:|^)\/\//, '')) %>
+            <div class="statusBlock <%= urls[i].website_status === 'Website is down' ? 'website-down' : '' %>">
+              <span class="website-url"><%= cleanUrls[i] %></span>
+              <!-- <span class="website-status"><%= urls[i].website_status %></span> -->
+            </div>
         <% } %>
       </div>
     <% } %>
