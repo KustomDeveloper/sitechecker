@@ -21,6 +21,10 @@
         <% if (urls) { %>
           <!-- <h2><%= urls.length > 0 ? 'Domains' : '' %> </h2> -->
           <div>
+            <span class="column-title title-name">Name</span>
+            <span class="column-title title-url" >Url</span>
+            <span class="column-title title-status">Status</span>
+            <span class="column-title  title-action">Action</span>
             <% var cleanUrls = []; %>
             <% for(var i=0; i < urls.length; i++) { %>
               <% cleanUrls.push(urls[i].website_url.replace(/(^\w+:|^)\/\//, '')) %>

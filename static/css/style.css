@@ -250,6 +250,34 @@ label {
   width: 100%;
   border-top: 1px solid rgba(255,255,255, 0.1);
 }
+.statusBlock .website-name, .statusBlock .website-url, 
+.statusBlock .website-status, .statusBlock .action {
+  width: 100%;
+  max-width: 250px;
+  display:inline-block;
+}
+#dashboard .column-title {
+  width: 100%;
+  max-width: 227px;
+  display: inline-block;
+  margin-left: 17px;
+  color: var(--input-grey);
+  font-weight: bold;
+  font-size: 13px;
+}
+.title-url, .title-status {
+  margin-left: 20px;
+}
+
+.statusBlock .website-name {
+  transform: Capitalize;
+}
+.statusBlock .action {
+  text-align: center;
+}
+.statusBlock:first-of-type {
+  border-top: none;
+}
 .website-url {
   color:#fff;
   font-weight: bold;
@@ -264,6 +292,8 @@ label {
 }
 .domain-panel {
   background-color: var(--lt-blue);
+  border-radius: 8px;
+  margin-top: 15px;
 }
 .default-status {
   display: inline-block;
