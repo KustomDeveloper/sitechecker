@@ -1,0 +1,12 @@
+{
+  "$schema": "https://deno.land/x/denon@2.4.7/schema.json",
+  "allow": ["net", "env", "read"],
+  "unstable": true,
+  "reload": true,
+  "scripts": {
+    "start": {
+      "cmd": "deno run mod.ts",
+      "desc": "run my app.ts file"
+    }
+  }
+}

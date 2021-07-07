@@ -1,20 +1,19 @@
 <%- await include('views/partials/auth-header.ejs', { title: 'Dashboard' }) %>
-
+<div id="dashboard">
 <div class="container">
   <div class="row">
-    <form action="?" method="POST" id="add-website-form">
-      <h1>Dashboard</h1>
 
-      <h2>Add a website</h2>
+    <button id="success-flash"><img class="info-icon" src="/img/Info-Icon.png" alt="Info Icon"> Success! Website Added! <img class="cross-icon" src="/img/Cross.png" alt="X Icon"> </button>
+
+    <form action="?" method="POST" id="add-website-form">
       <div class="form-group">
-        <label style="display: block;" for="Website url">Website Url</label>
-        <input type="text" class="form-control" name="addwebsite" id="addwebsite"  required>
-        <span class="add-website-error"></span>
-        <button type="submit" id="add-website-submit" class="btn btn-primary">Add website</button>
+        <input type="text" class="form-control" name="addwebsite" id="addwebsite" placeholder="Website URL..."  required>
+        <button type="submit" id="add-website-submit" class="btn btn-primary"> Add website <img src="/img/grey-plus.png"></button> <span class="add-website-error"></span>
       </div>
     </form>
-    </div>
-    </div>
+    </div><!--.row-->
+    <h2>Domains</h2>
+    </div><!--.container-->
 
     <div class="container">
       <div class="row">
@@ -39,5 +38,6 @@
 
   </div><!--.row-->
 </div><!--.container-->
+</div><!--#dashboard-->
 
 <%- await include('views/partials/footer.ejs', {}) %>
