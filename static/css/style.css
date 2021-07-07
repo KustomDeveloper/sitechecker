@@ -242,12 +242,13 @@ label {
   font-size:small;
 }
 .statusBlock {
-  background: #56B565;
+  position: relative;
   margin: 2px 1px;
   padding: 15px;
   border-radius: 3px;
-  display: inline-block;
-  box-shadow: 0 0 3px 1px rgb(0 0 0 / 20%);
+  display: block;
+  width: 100%;
+  border-top: 1px solid rgba(255,255,255, 0.1);
 }
 .website-url {
   color:#fff;
@@ -261,39 +262,8 @@ label {
 .watchlist-title {
   width: 100%;
 }
-.legend {
-  font-size:13px;
-  float:right;
-  position: relative;
-  margin-right: 50px;
-}
-.legend .up {
-  position: relative;
-  right: 15px;
-  font-weight: bold;
-}
-.legend .up:before {
-  content:"";
-  width: 20px;
-  height: 20px;
-  background: green;
-  right: -25px;
-  top: -3px;
-  position: absolute;
-}
-.legend .down {
-  position: relative;
-  right: -20px;
-  font-weight: bold;
-}
-.legend .down:before {
-  content:"";
-  width: 20px;
-  height: 20px;
-  background: red;
-  right: -25px;
-  top: -3px;
-  position: absolute;
+.domain-panel {
+  background-color: var(--lt-blue);
 }
 .unauth-title {
   font-size: 32px;

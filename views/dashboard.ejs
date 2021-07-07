@@ -15,15 +15,12 @@
     </div><!--.container-->
  
     <div class="container">
-    <div class="row">
+    <div class="row row-block">
+      <div><h2>Domains</h2></div>
       <div class="domain-panel">
         <% if (urls) { %>
+          <!-- <h2><%= urls.length > 0 ? 'Domains' : '' %> </h2> -->
           <div>
-            <h2><%= urls.length > 0 ? 'Domains' : '' %> 
-              <span class="legend">
-                <span class="up">UP</span>
-                <span class="down">DOWN</span>
-              </span></h2>
             <% var cleanUrls = []; %>
             <% for(var i=0; i < urls.length; i++) { %>
               <% cleanUrls.push(urls[i].website_url.replace(/(^\w+:|^)\/\//, '')) %>
