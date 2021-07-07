@@ -7,6 +7,14 @@
   --border-grey: rgba(49, 61, 79, 1);
   --input-grey: #8b939f;
 }
+.container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 15px;
+} 
+.row-block {
+  display: block;
+}
 @font-face {
   font-family: ProximaNova;
   src: url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_1_0.eot);
@@ -155,6 +163,12 @@ h2 {
 }
 
 /*Dashboard*/
+#dashboard h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
 #addwebsite {
   position: relative;
   top: 2px;

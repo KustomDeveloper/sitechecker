@@ -1,9 +1,9 @@
 <%- await include('views/partials/auth-header.ejs', { title: 'Dashboard' }) %>
 <div id="dashboard">
 <div class="container">
-  <div class="row">
+  <div class="row row-block">
 
-    <button id="success-flash"><img class="info-icon" src="/img/Info-Icon.png" alt="Info Icon"> Success! Website Added! <img class="cross-icon" src="/img/Cross.png" alt="X Icon"> </button>
+    <div><button id="success-flash"><img class="info-icon" src="/img/Info-Icon.png" alt="Info Icon"> Success! Website Added! <img class="cross-icon" src="/img/Cross.png" alt="X Icon"> </button></div>
 
     <form action="?" method="POST" id="add-website-form">
       <div class="form-group">
@@ -12,30 +12,31 @@
       </div>
     </form>
     </div><!--.row-->
-    <h2>Domains</h2>
     </div><!--.container-->
-
+ 
     <div class="container">
-      <div class="row">
-    
-    <% if (urls) { %>
-      <div>
-        <h5 class="watchlist-title"><%= urls.length > 0 ? 'Watchlist' : '' %> 
-          <span class="legend">
-            <span class="up">UP</span>
-            <span class="down">DOWN</span>
-          </span></h5>
-        <% var cleanUrls = []; %>
-        <% for(var i=0; i < urls.length; i++) { %>
-          <% cleanUrls.push(urls[i].website_url.replace(/(^\w+:|^)\/\//, '')) %>
-            <div class="statusBlock <%= urls[i].website_status === 'Website is down' ? 'website-down' : '' %>">
-              <span class="website-url"><%= cleanUrls[i] %></span>
-              <!-- <span class="website-status"><%= urls[i].website_status %></span> -->
-            </div>
+    <div class="row">
+      <div class="domain-panel">
+        <% if (urls) { %>
+          <div>
+            <h2><%= urls.length > 0 ? 'Domains' : '' %> 
+              <span class="legend">
+                <span class="up">UP</span>
+                <span class="down">DOWN</span>
+              </span></h2>
+            <% var cleanUrls = []; %>
+            <% for(var i=0; i < urls.length; i++) { %>
+              <% cleanUrls.push(urls[i].website_url.replace(/(^\w+:|^)\/\//, '')) %>
+                <span class="statusBlock">
+                  <span class="website-name"><%= cleanUrls[i] %></span>
+                  <span class="website-url"><%= urls[i].website_url %></span>
+                  <span class="default-status <%= urls[i].website_status === 'Website is down' ? 'website-down' : '' %>"></span>
+                  <!-- <span class="website-status"><%= urls[i].website_status %></span> -->
+                </span>
+            <% } %>
+          </div>
         <% } %>
       </div>
-    <% } %>
-
   </div><!--.row-->
 </div><!--.container-->
 </div><!--#dashboard-->
