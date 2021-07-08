@@ -32,7 +32,8 @@
                   <span class="website-name"><%= cleanUrls[i] %></span>
                   <span class="website-url"><%= urls[i].website_url %></span>
                   <span class="default-status <%= urls[i].website_status === 'Website is down' ? 'website-down' : '' %>"></span>
-                  <span class="action"><img src="/img/cogwheel.png" alt="Cog Wheel"></span>
+                  <span class="action"><img src="/img/cogwheel.png" alt="Cog Wheel"><span>
+                    <a href="#" website-id="<%= urls[i].website_id %>"></a></span></span>
                   <!-- <span class="website-status"><%= urls[i].website_status %></span> -->
                 </span>
             <% } %>

@@ -1,6 +1,10 @@
 //Define
 var isValid = false;
 
+async function deleteWebsite(id) {
+  console.log(id)
+}
+
 jQuery('.logout-link').on('click', function(e) {
   e.preventDefault();
   const logout = true;

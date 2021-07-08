@@ -256,6 +256,11 @@ label {
   max-width: 250px;
   display:inline-block;
 }
+.statusBlock .action {
+  width: 100%;
+  max-width: 50px;
+  display:inline-block;
+}
 #dashboard .column-title {
   width: 100%;
   max-width: 227px;
@@ -264,6 +269,10 @@ label {
   color: var(--input-grey);
   font-weight: bold;
   font-size: 13px;
+}
+#dashboard .title-action {
+  width: 100%;
+  max-width: 50px;
 }
 .title-url, .title-status {
   margin-left: 20px;

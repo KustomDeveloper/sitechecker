@@ -1,8 +1,7 @@
 import { Application, Router, send } from "https://deno.land/x/oak/mod.ts";
-import { home, login, register, dashboard, registerUser, loginUser, addWebsite, logout } from "./routes.ts";
+import { home, login, register, dashboard, registerUser, loginUser, addWebsite, deleteWebsite, logout } from "./routes.ts";
 import { createTables, client } from "./db.ts";
 import { authenticateUser } from "./authenticate.ts";
-import encryptPassword from "./auth.ts";
 import { checkWebsite, getAllWebsites } from "./sitechecker.ts";
 import { staticFileMiddleware } from "./staticFileMiddleware.ts";
 import {cron} from 'https://deno.land/x/deno_cron/cron.ts';
@@ -23,16 +22,27 @@ router
 .post('/register-user', registerUser)
 .post('/add-website', addWebsite)
 
+.delete('/delete-website', deleteWebsite)
+
 //Create tables if not created
-// createTables(client, "connected");
+createTables(client, "connected");
 
 //Add routes
 app.use(router.routes());
 app.use(router.allowedMethods());
 app.use(staticFileMiddleware);
 
+// (async () => {
+//   await client.connect();
+//   console.log(client);
+//   await client.end();
+// })()
+
+
 //encryptPassword('testing');
 console.log(`Server Running on port: ${PORT}`);
+
+
 
 //Show errors that would otherwise be hidden 
 app.addEventListener('error', event => {

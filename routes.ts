@@ -6,16 +6,21 @@ import { create, getNumericDate, decode } from "https://deno.land/x/djwt@v2.2/mo
 import { setCookie, getCookies, deleteCookie } from "https://deno.land/std/http/cookie.ts";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
-
+/* 
+* Controllers
+*/ 
 export const home = async (ctx: RouterContext) => {
   ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/index.ejs`, {});
 }
+
 export const register = async (ctx: RouterContext) => {
   ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/register.ejs`, {});
 }
+
 export const login = async (ctx: RouterContext) => {
   ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/login.ejs`, {});
 }
+
 export const dashboard = async (ctx: RouterContext) => {
   try {
     //Get cookie values
@@ -40,6 +45,8 @@ export const dashboard = async (ctx: RouterContext) => {
     await client.end();
 
     const urls = await websites.rows;
+    const website_ids = await websites;
+    console.log(website_ids);
 
     if(urls) {
       ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {urls});
@@ -51,6 +58,7 @@ export const dashboard = async (ctx: RouterContext) => {
       console.error(err)
     }
 }
+
 export const registerUser = async (ctx: RouterContext) => {
   try{
     const body = await ctx.request.body().value;
@@ -87,6 +95,7 @@ export const registerUser = async (ctx: RouterContext) => {
     ctx.response.status = 400; //Bad request
   }
 }
+
 export const loginUser = async (ctx: RouterContext) => {
   try {
     const body = await ctx.request.body().value;
@@ -168,6 +177,25 @@ export const loginUser = async (ctx: RouterContext) => {
     console.error(err);
   }
 }
+
+export const logout = async (ctx: RouterContext) => {
+  try {
+    const body = await ctx.request.body().value;
+    const logout = body.data.logout;
+
+    if(logout) {
+      deleteCookie(ctx.response, "authorization"); 
+
+      //Send ok response
+      ctx.response.body = { message: "ok" };
+      ctx.response.status = 200; //ok
+    } 
+
+  } catch(err) {
+    console.error(err);
+  } 
+}
+
 export const addWebsite = async (ctx: RouterContext) => {
   try{
     const body = await ctx.request.body().value;
@@ -210,20 +238,45 @@ export const addWebsite = async (ctx: RouterContext) => {
   }
 
 }
-export const logout = async (ctx: RouterContext) => {
-  try {
+export const deleteWebsite = async (ctx: RouterContext) => {
+  try{
     const body = await ctx.request.body().value;
-    const logout = body.data.logout;
+    const website_id = body.data.website_id;
 
-    if(logout) {
-      deleteCookie(ctx.response, "authorization"); 
+    if(website_id) {
 
-      //Send ok response
+      //Get cookie values
+      const jwt = getCookies(ctx.request);
+      const token: string = jwt.authorization || ""; 
+      
+      //Decode jwt token
+      const [header, payload, signature] = decode(token);
+
+      //Define object
+      const data: any = payload as object;
+
+      //Get user id
+      const userId = data[Object.keys(data)[0]]
+      
+      //Get current date/time
+      const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+
+      await client.connect();
+      
+      //Add website to db
+      const addUrl = await client.queryObject`INSERT INTO websites (user_id, website_url, website_status, website_last_checked ) VALUES (${userId}, ${website_id}, 'unknown', ${currentTime})`;
+
+      //close db connection
+      await client.end();
+
       ctx.response.body = { message: "ok" };
       ctx.response.status = 200; //ok
-    } 
+
+    }
 
   } catch(err) {
-    console.error(err);
-  } 
+    ctx.response.body = { message: "error" };
+    ctx.response.status = 500; //err
+  }
+
 }
