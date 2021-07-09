@@ -1,20 +1,6 @@
-:root {
-  --navy-blue: #1C2431;
-  --lt-blue: #283142;
-  --green: #36af47;
-  --yellow: #F0981B;
-  --mint: #42BA9C;
-  --border-grey: rgba(49, 61, 79, 1);
-  --input-grey: #8b939f;
-}
-.container {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 15px;
-} 
-.row-block {
-  display: block;
-}
+
+
+/*Fonts*/
 @font-face {
   font-family: ProximaNova;
   src: url(https://d25purrcgqtc5w.cloudfront.net/dist/fonts/proximanova/302D42_1_0.eot);
@@ -53,6 +39,16 @@
   font-display: swap;
 }
 
+/*main styles*/
+:root {
+  --navy-blue: #1C2431;
+  --lt-blue: #283142;
+  --green: #36af47;
+  --yellow: #F0981B;
+  --mint: #42BA9C;
+  --border-grey: rgba(49, 61, 79, 1);
+  --input-grey: #8b939f;
+}
 body {
   font-family: 'ProximaNova', sans-serif;
   color:#fff;
@@ -64,6 +60,36 @@ body {
 header {
   background: #2B373D;
 }
+.container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 15px;
+} 
+.row-block {
+  display: block;
+}
+li {
+  list-style: none;
+}
+form div {
+  margin-bottom:10px;
+}
+label {
+  font-size:small;
+}
+h1 {
+  font-size: 32px;
+  margin: 30px 0 50px;
+  color: #fff;
+  font-weight: 700;
+}
+h2 {
+  font-size: 24px;
+  margin: 15px 0;
+}
+
+
+/*Homepage*/
 .home-banner {
   background: #1B262D;
 }
@@ -121,6 +147,9 @@ header {
 .no-wrap {
   width: 100%;
 }
+
+
+/*Navigation*/
 nav {
   align-content: flex-end;
   margin-top: 30px;
@@ -140,6 +169,8 @@ nav ul {
 nav ul li {
   display: inline-block;
 }
+
+/*Logo*/
 .logo {
   padding-left: 0;
 }
@@ -148,19 +179,7 @@ nav ul li {
   max-width: 200px;
   padding: 10px 0;
 }
-form div {
-  margin-bottom:10px;
-}
-h1 {
-  font-size: 32px;
-  margin: 30px 0 50px;
-  color: #fff;
-  font-weight: 700;
-}
-h2 {
-  font-size: 24px;
-  margin: 15px 0;
-}
+
 
 /*Dashboard*/
 #dashboard h2 {
@@ -202,6 +221,122 @@ h2 {
   color: var(--input-grey);
   font-size:15px;
 }
+.statusBlock {
+  position: relative;
+  margin: 2px 1px;
+  padding: 15px;
+  border-radius: 3px;
+  display: block;
+  width: 100%;
+  border-top: 1px solid rgba(255,255,255, 0.1);
+}
+.statusBlock .website-name, .statusBlock .website-url, 
+.statusBlock .website-status, .statusBlock .action {
+  width: 100%;
+  max-width: 250px;
+  display:inline-block;
+}
+.statusBlock .action {
+  width: 100%;
+  display:inline-block;
+}
+#dashboard .column-title {
+  width: 100%;
+  max-width: 250px;
+  display: inline-block;
+  color: var(--input-grey);
+  font-weight: bold;
+  font-size: 13px;
+}
+#dashboard .title-action {
+  width: 100%;
+  max-width: 50px;
+}
+.column-header {
+  width: 100%;
+  margin-left: 15px;
+}
+.statusBlock .website-name {
+  font-size: 15px;
+  color: #fff;
+}
+.statusBlock .action {
+  text-align: center;
+  position: relative;
+}
+.statusBlock .action img {
+  cursor: pointer;
+  display: block;
+  width: 19px;
+  height: 19px;
+  margin: 0 auto;
+  position: relative;
+  left: 15px;
+}
+.statusBlock .action a:hover .sub-menu {
+  display:block;
+}
+.sub-menu {
+  display: block;
+  background: #000;
+  width: 100px;
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  text-align: left;
+  padding: 3px 5px;
+}
+.sub-menu a {
+  color: #fff;
+  font-size:14px;
+  text-transform: uppercase;
+}
+.hidden {
+  display: none;
+}
+.statusBlock:first-of-type {
+  border-top: none;
+}
+.website-url {
+  color:#777;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+  font-size: 15px;
+}
+.watchlist-title {
+  width: 100%;
+}
+.domain-panel {
+  background-color: var(--lt-blue);
+  border-radius: 8px;
+  margin-top: 15px;
+}
+.default-status {
+  display: inline-block;
+  background: var(--green);
+  width: 100%;
+  max-width: 125px;
+  border-radius: 3px;
+  font-size:12px;
+  text-align: center;
+  padding: 2px 7px;
+}
+.website-down {
+  position: relative;
+  background: var(--yellow);
+}
+.default-status:after {
+  content: "RUNNING SMOOTHLY";
+  position: relative;
+  color:#fff;
+}
+.website-down:after {
+  content: "WEBSITE IS DOWN";
+  position: relative;
+  color:#fff;
+}
+
+/*Success & Errors*/
 #success-flash {
   opacity: 0;
   display:block;
@@ -238,96 +373,8 @@ h2 {
   color: red;
   font-size:small;
 }
-label {
-  font-size:small;
-}
-.statusBlock {
-  position: relative;
-  margin: 2px 1px;
-  padding: 15px;
-  border-radius: 3px;
-  display: block;
-  width: 100%;
-  border-top: 1px solid rgba(255,255,255, 0.1);
-}
-.statusBlock .website-name, .statusBlock .website-url, 
-.statusBlock .website-status, .statusBlock .action {
-  width: 100%;
-  max-width: 250px;
-  display:inline-block;
-}
-.statusBlock .action {
-  width: 100%;
-  max-width: 50px;
-  display:inline-block;
-}
-#dashboard .column-title {
-  width: 100%;
-  max-width: 227px;
-  display: inline-block;
-  margin-left: 17px;
-  color: var(--input-grey);
-  font-weight: bold;
-  font-size: 13px;
-}
-#dashboard .title-action {
-  width: 100%;
-  max-width: 50px;
-}
-.title-url, .title-status {
-  margin-left: 20px;
-}
 
-.statusBlock .website-name {
-  transform: Capitalize;
-}
-.statusBlock .action {
-  text-align: center;
-}
-.statusBlock:first-of-type {
-  border-top: none;
-}
-.website-url {
-  color:#fff;
-  font-weight: bold;
-  letter-spacing: 0.3px;
-  font-size: 15px;
-}
-.statusBlock.website-down {
-  background: #B80915;
-}
-.watchlist-title {
-  width: 100%;
-}
-.domain-panel {
-  background-color: var(--lt-blue);
-  border-radius: 8px;
-  margin-top: 15px;
-}
-.default-status {
-  display: inline-block;
-  background: var(--green);
-  width: 100%;
-  max-width: 125px;
-  border-radius: 3px;
-  font-size:12px;
-  text-align: center;
-  padding: 2px 7px;
-}
-.website-down {
-  position: relative;
-  background: var(--yellow);
-}
-.default-status:after {
-  content: "RUNNING SMOOTHLY";
-  position: relative;
-  color:#fff;
-}
-.website-down:after {
-  content: "WEBSITE IS DOWN";
-  position: relative;
-  color:#fff;
-}
+/*Unauthorized*/
 .unauth-title {
   font-size: 32px;
   text-align: center;

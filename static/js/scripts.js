@@ -1,9 +1,18 @@
 //Define
 var isValid = false;
 
-async function deleteWebsite(id) {
-  console.log(id)
-}
+jQuery('.delete-website').on('click', function(e) {
+  e.preventDefault();
+  console.log('deleted website')
+  jQuery(this).
+
+})
+
+//Toggle settings menu dropdown
+jQuery('.settings').on('click', function(e) {
+  e.preventDefault();
+  jQuery(this).next('.sub-menu').toggleClass('hidden');
+})
 
 jQuery('.logout-link').on('click', function(e) {
   e.preventDefault();

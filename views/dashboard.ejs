@@ -17,25 +17,32 @@
     <div class="container">
     <div class="row row-block">
       <div><h2>Domains</h2></div>
-      <div class="domain-panel">
+      <div class="container domain-panel">
         <% if (urls) { %>
-          <!-- <h2><%= urls.length > 0 ? 'Domains' : '' %> </h2> -->
-          <div>
-            <span class="column-title title-name">Name</span>
-            <span class="column-title title-url" >Url</span>
-            <span class="column-title title-status">Status</span>
-            <span class="column-title  title-action">Action</span>
             <% var cleanUrls = []; %>
             <% for(var i=0; i < urls.length; i++) { %>
               <% cleanUrls.push(urls[i].website_url.replace(/(^\w+:|^)\/\//, '')) %>
-                <span class="statusBlock">
-                  <span class="website-name"><%= cleanUrls[i] %></span>
-                  <span class="website-url"><%= urls[i].website_url %></span>
-                  <span class="default-status <%= urls[i].website_status === 'Website is down' ? 'website-down' : '' %>"></span>
-                  <span class="action"><img src="/img/cogwheel.png" alt="Cog Wheel"><span>
-                    <a href="#" website-id="<%= urls[i].website_id %>"></a></span></span>
-                  <!-- <span class="website-status"><%= urls[i].website_status %></span> -->
-                </span>
+              <div class="row">
+                <% if(i < 1) { %>
+                  <div class="column-header">
+                    <li class="column-title title-name">Name</li>
+                    <li class="column-title title-url" >Url</li>
+                    <li class="column-title title-status">Status</li>
+                    <li class="column-title  title-action">Action</li>
+                  </div>
+                <% } %>
+                <ul class="statusBlock">
+                  <li class="website-name"><%= cleanUrls[i] %></li>
+                  <li class="website-url"><%= urls[i].website_url %></li>
+                  <li class="default-status <%= urls[i].website_status === 'Website is down' ? 'website-down' : '' %>"></li>
+                  <li class="action">
+                    <img class="settings" src="/img/cogwheel.png" alt="Cog Wheel">
+                    <ul class="sub-menu hidden">
+                      <li><a class="delete-website" href="#" website-id="<%= urls[i].website_id %>">Delete</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
             <% } %>
           </div>
         <% } %>
