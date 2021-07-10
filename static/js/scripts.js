@@ -1,6 +1,11 @@
 //Define
 var isValid = false;
 
+jQuery('#success-flash .cross-icon').on('click', function(e) {
+  e.preventDefault();
+  jQuery(this).parent().css({'opacity': 0});
+})
+
 jQuery('.delete-website').on('click', function(e) {
   if (!confirm('Are you sure?')) {
     e.preventDefault();
@@ -103,7 +108,12 @@ jQuery('#add-website-submit').on('click', function(e) {
           .then(data => {
            
             if(data.message === "ok") {
-               window.location.reload();
+              jQuery('#success-flash').css({'opacity': 1});
+
+              setTimeout(() => {
+                window.location.reload();
+              }, 3000)
+  
 
             } else {
               console.log("There was an error.")

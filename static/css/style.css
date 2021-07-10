@@ -71,6 +71,9 @@ header {
 li {
   list-style: none;
 }
+button:focus {
+  outline: none;
+}
 form div {
   margin-bottom:10px;
 }
@@ -320,6 +323,17 @@ td.action{
   padding:15px;
   margin-left: 0;
 }
+.success-box {
+border-radius: 15px;
+background: #000;
+
+}
+.error-box {
+
+}
+.last-check-box {
+
+}
 
 /*Success & Errors*/
 #success-flash {
@@ -343,6 +357,7 @@ td.action{
   position: absolute;
   right: 10px;
   top: 13px;
+  cursor: pointer;
 }
 #success-flash .info-icon {
   position: absolute;

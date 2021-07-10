@@ -1,5 +1,4 @@
 import { soxa } from "https://deno.land/x/soxa/mod.ts";
-import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 import { client } from "./db.ts";
 
 export async function checkWebsite(url: string, id: number) {
@@ -9,7 +8,7 @@ export async function checkWebsite(url: string, id: number) {
 
     if (status === 200) {
       const websiteStatus: string = "Website is up"; 
-      const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+      const currentTime = new Date().getTime();
 
       //Add website up status
       await client.connect();
@@ -19,7 +18,7 @@ export async function checkWebsite(url: string, id: number) {
 
     } else {
       const websiteStatus: string = "Website is down"; 
-      const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+      const currentTime = new Date().getTime();
 
       //Add website down status
       await client.connect();
@@ -32,7 +31,7 @@ export async function checkWebsite(url: string, id: number) {
   } catch(err) {
     // console.log(err);
     const websiteStatus: string = "Website is down"; 
-    const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+    const currentTime = new Date().getTime();
 
     //Add website down status
     await client.connect();
@@ -53,10 +52,11 @@ export async function getAllWebsites() {
       const urls = await websites.rows;
 
       if(urls) {
+        console.log(new Date().getTime());
         return urls;
-        console.log(format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+       
       } else { 
-        console.log('No urls ' + format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        console.log('No urls ' + new Date().getTime());
       }
       
   } catch(err) {

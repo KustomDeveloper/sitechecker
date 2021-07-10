@@ -68,7 +68,56 @@
           <div class="col-md-7">
             <div><h2>Quick Look</h2></div>
             <div class="quick-display">
-              <p>Slaves</p>
+              <% 
+              const websiteUpArray = [];
+              const websiteDownArray = [];
+
+              for(var i=0; i < urls.length; i++) { 
+                if(urls[i].website_status === 'Website is up') { 
+                  websiteUpArray.push(urls[i]);
+                } else if(urls[i].website_status === 'Website is down') { 
+                  websiteDownArray.push(urls[i]);
+                } 
+
+              } 
+
+              const websiteUpStatus = websiteUpArray.length;
+              const websiteDownStatus = websiteDownArray.length;
+              %>
+
+              <div class="container">
+                <div class="row">
+
+                  <div class="col-md-4">
+                    <div class="success-box">
+                      <h3>Success</h3>
+                      <%= websiteUpStatus %>
+                    </div>
+                  </div><!--.col-md-4-->
+
+                  <div class="col-md-4">
+                    <div class="error-box">
+                      <h3>Errors</h3>
+                      <%= websiteDownStatus %>
+                    </div>
+                  </div><!--.col-md-4-->
+
+                  <div class="col-md-4">
+                    <div class="last-check-box">
+                      <% 
+                      const lastChecked = urls[0].website_last_checked;
+                      const currentTime = new Date().getTime(); 
+                      const timeLeft = currentTime - lastChecked;
+                      const minutes = Math.round(timeLeft / 60000);
+                      %>
+
+                      <h3>Last Check</h3>
+                      <%= minutes %>
+                    </div>
+                  </div><!--.col-md-4-->
+
+                </div><!--.row-->
+              </div><!--.container-->
             </div><!--.quick-display-->
           </div>
         <% } %>

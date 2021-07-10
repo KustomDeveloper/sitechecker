@@ -4,7 +4,6 @@ import { client, createUser } from "./db.ts";
 import "https://deno.land/x/dotenv/load.ts";
 import { create, getNumericDate, decode } from "https://deno.land/x/djwt@v2.2/mod.ts";
 import { setCookie, getCookies, deleteCookie } from "https://deno.land/std/http/cookie.ts";
-import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
 /* 
 * Controllers
@@ -45,7 +44,6 @@ export const dashboard = async (ctx: RouterContext) => {
     await client.end();
 
     const urls = await websites.rows;
-    const website_ids = await websites;
 
     if(urls) {
       ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {urls});
@@ -216,7 +214,7 @@ export const addWebsite = async (ctx: RouterContext) => {
       const userId = data[Object.keys(data)[0]]
       
       //Get current date/time
-      const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+      const currentTime = new Date().getTime();
 
       await client.connect();
       
