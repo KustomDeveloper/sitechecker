@@ -46,7 +46,6 @@ export const dashboard = async (ctx: RouterContext) => {
 
     const urls = await websites.rows;
     const website_ids = await websites;
-    console.log(website_ids);
 
     if(urls) {
       ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {urls});
@@ -244,7 +243,6 @@ export const deleteWebsite = async (ctx: RouterContext) => {
     const website_id = body.data.website_id;
 
     if(website_id) {
-
       //Get cookie values
       const jwt = getCookies(ctx.request);
       const token: string = jwt.authorization || ""; 
@@ -256,27 +254,30 @@ export const deleteWebsite = async (ctx: RouterContext) => {
       const data: any = payload as object;
 
       //Get user id
-      const userId = data[Object.keys(data)[0]]
-      
-      //Get current date/time
-      const currentTime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+      const user_id = data[Object.keys(data)[0]]
 
       await client.connect();
       
-      //Add website to db
-      const addUrl = await client.queryObject`INSERT INTO websites (user_id, website_url, website_status, website_last_checked ) VALUES (${userId}, ${website_id}, 'unknown', ${currentTime})`;
+      //Delete website from DB
+      const deleteWebsite = await client.queryObject`DELETE FROM websites where website_id = ${website_id} AND user_id = ${user_id}`;
 
-      //close db connection
-      await client.end();
 
-      ctx.response.body = { message: "ok" };
-      ctx.response.status = 200; //ok
+        if(deleteWebsite)  {
+          await client.end();
+          ctx.response.body = { message: "ok" };
+          ctx.response.status = 200; //ok
 
-    }
+        } else {
+          await client.end();
+          ctx.response.body = { message: "You must be authorized to delete the website" };
+          ctx.response.status = 401; //err
+        }
+        
+    } 
 
   } catch(err) {
-    ctx.response.body = { message: "error" };
-    ctx.response.status = 500; //err
+    ctx.response.body = { message: "You must be authorized to delete the website" };
+    ctx.response.status = 401; //err
   }
 
 }

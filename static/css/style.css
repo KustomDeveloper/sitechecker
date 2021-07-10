@@ -182,6 +182,9 @@ nav ul li {
 
 
 /*Dashboard*/
+#dashboard .col-md-7, .col-md-5 {
+  padding: 0 10px 0 0;
+}
 #dashboard h2 {
   font-size: 20px;
   font-weight: 600;
@@ -212,7 +215,7 @@ nav ul li {
 }
 #add-website-form {
   width:100%;
-  max-width: 400px;
+  max-width: 500px;
 }
 #add-website-form button {
   margin: 5px 0;
@@ -221,70 +224,40 @@ nav ul li {
   color: var(--input-grey);
   font-size:15px;
 }
-.statusBlock {
-  position: relative;
-  margin: 2px 1px;
-  padding: 15px;
-  border-radius: 3px;
-  display: block;
-  width: 100%;
+.domain-panel td {
   border-top: 1px solid rgba(255,255,255, 0.1);
-}
-.statusBlock .website-name, .statusBlock .website-url, 
-.statusBlock .website-status, .statusBlock .action {
-  width: 100%;
-  max-width: 250px;
-  display:inline-block;
-}
-.statusBlock .action {
-  width: 100%;
-  display:inline-block;
-}
-#dashboard .column-title {
-  width: 100%;
-  max-width: 250px;
-  display: inline-block;
-  color: var(--input-grey);
-  font-weight: bold;
-  font-size: 13px;
 }
 #dashboard .title-action {
   width: 100%;
   max-width: 50px;
 }
-.column-header {
-  width: 100%;
-  margin-left: 15px;
-}
-.statusBlock .website-name {
+.website-name {
   font-size: 15px;
   color: #fff;
 }
-.statusBlock .action {
+.action {
   text-align: center;
   position: relative;
 }
-.statusBlock .action img {
+.action img {
   cursor: pointer;
   display: block;
   width: 19px;
   height: 19px;
-  margin: 0 auto;
   position: relative;
   left: 15px;
-}
-.statusBlock .action a:hover .sub-menu {
-  display:block;
+  top: 5px;
 }
 .sub-menu {
   display: block;
   background: #000;
-  width: 100px;
+  width: 60px;
   position: absolute;
-  top: 25px;
-  right: 35px;
+  top: 40px;
+  left:0;
   text-align: left;
   padding: 3px 5px;
+  z-index:99;
 }
 .sub-menu a {
   color: #fff;
@@ -294,14 +267,17 @@ nav ul li {
 .hidden {
   display: none;
 }
-.statusBlock:first-of-type {
-  border-top: none;
+.domain-panel th {
+  color: var(--input-grey);
+  font-weight: bold;
+  font-size: 13px;
+  border: none !important;
 }
 .website-url {
   color:#777;
   font-weight: bold;
   letter-spacing: 0.3px;
-  font-size: 15px;
+  font-size: 13px;
 }
 .watchlist-title {
   width: 100%;
@@ -310,30 +286,39 @@ nav ul li {
   background-color: var(--lt-blue);
   border-radius: 8px;
   margin-top: 15px;
+  margin-left: 0;
 }
-.default-status {
+.default-status button {
   display: inline-block;
   background: var(--green);
-  width: 100%;
-  max-width: 125px;
+  width: 125px;
+  height: 25px;
   border-radius: 3px;
-  font-size:12px;
+  font-size: 12px;
   text-align: center;
-  padding: 2px 7px;
+  padding: 3px 0px !important;
+  color: #fff;
+  border:none;
 }
-.website-down {
+.website-down button {
   position: relative;
   background: var(--yellow);
 }
-.default-status:after {
-  content: "RUNNING SMOOTHLY";
+.unknown button {
   position: relative;
-  color:#fff;
+  background: grey;
 }
-.website-down:after {
-  content: "WEBSITE IS DOWN";
-  position: relative;
-  color:#fff;
+td.action{
+  padding: 10px 5px;
+}
+
+/*Quick Display*/
+.quick-display {
+  background-color: var(--lt-blue);
+  border-radius: 8px;
+  margin-top: 15px;
+  padding:15px;
+  margin-left: 0;
 }
 
 /*Success & Errors*/
@@ -373,6 +358,11 @@ nav ul li {
   color: red;
   font-size:small;
 }
+.error-text {
+  position: relative;
+  top:1px;
+  left:2px;
+}
 
 /*Unauthorized*/
 .unauth-title {
@@ -384,5 +374,19 @@ nav ul li {
 }
 .unauth-btns button {
   margin-right: 15px;
+}
+
+@media screen and (max-width:920px) {
+  #dashboard .sub-menu li {
+    margin: 0;
+  }
+  #dashboard .sub-menu {
+    right: unset;
+    left:-40px;
+    top: 10px;
+  }
+  #addwebsite {
+    max-width: 150px;
+  }
 }
 

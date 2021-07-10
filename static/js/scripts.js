@@ -2,53 +2,81 @@
 var isValid = false;
 
 jQuery('.delete-website').on('click', function(e) {
-  e.preventDefault();
-  console.log('deleted website')
-  jQuery(this).
+  if (!confirm('Are you sure?')) {
+    e.preventDefault();
+  } else {
+    const website_id = jQuery(this).attr('website-id');
+    data = { website_id }
 
-})
+    const body = JSON.stringify({data: data});
+    const url = "/delete-website";
+    
+    async function deleteWebsite() {
+      const response = await fetch(
+        url,
+        {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: body,
+        }).then(response => response.json())
+          .then(data => {
+          
+            if(data.message === "ok") {
+              window.location.reload(); 
 
-//Toggle settings menu dropdown
-jQuery('.settings').on('click', function(e) {
-  e.preventDefault();
-  jQuery(this).next('.sub-menu').toggleClass('hidden');
-})
+            } else {
+              console.log(data.message);
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+    }
+      
+    deleteWebsite();
+    }
+  })
 
-jQuery('.logout-link').on('click', function(e) {
-  e.preventDefault();
-  const logout = true;
+  //Toggle settings menu dropdown
+  jQuery('.settings').on('click', function(e) {
+    e.preventDefault();
+    jQuery(this).next('.sub-menu').toggleClass('hidden');
+  })
 
-  data = {
-    logout
-  }
+  jQuery('.logout-link').on('click', function(e) {
+    e.preventDefault();
+    const logout = true;
 
-  const body = JSON.stringify({data: data});
-  const url = "/logout";
+    data = {
+      logout
+    }
 
-  async function logOut() {
-    const response = await fetch(
-      url,
-      {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: body,
-      }).then(response => response.json())
-        .then(data => {
-         
-          if(data.message === "ok") {
-            window.location.href = "http://localhost:8000/login" 
+    const body = JSON.stringify({data: data});
+    const url = "/logout";
 
-          } else {
-            console.log("There was an error.")
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-  }
+    async function logOut() {
+      const response = await fetch(
+        url,
+        {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: body,
+        }).then(response => response.json())
+          .then(data => {
+          
+            if(data.message === "ok") {
+              window.location.href = "http://localhost:8000/login" 
 
-  logOut();
+            } else {
+              console.log("There was an error.")
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+    }
 
+    logOut();
 })
 
 jQuery('#add-website-submit').on('click', function(e) {
@@ -75,7 +103,6 @@ jQuery('#add-website-submit').on('click', function(e) {
           .then(data => {
            
             if(data.message === "ok") {
-               console.log(data) 
                window.location.reload();
 
             } else {
@@ -89,9 +116,7 @@ jQuery('#add-website-submit').on('click', function(e) {
   
     addWebsite();
 
-  } else {
-    // console.log("It's invalid.")
-  }
+  } 
 })
 
 //Validate website url
@@ -103,7 +128,7 @@ jQuery('#addwebsite').keyup(function() {
           jQuery('.add-website-error').html("<img src='/img/checked.svg'>");
           isValid = true;
         } else {
-          jQuery('.add-website-error').html("<img src='/img/unchecked.gif'><span>Invalid URL</span>");
+          jQuery('.add-website-error').html("<img class='error-icon' src='/img/Error-Icon.png'><span class='error-text'>Invalid URL</span>");
           isValid = false;
         }
       } 
