@@ -24,7 +24,7 @@ export async function createTables(client: any, msg: any) {
 
     //Create websites table on database if not created yet
     const websites_table = await client.queryObject`
-    CREATE TABLE IF NOT EXISTS websites (website_id SERIAL PRIMARY KEY, user_id integer, website_url varchar (100), website_status varchar (50), website_last_checked varchar (200))`;
+    CREATE TABLE IF NOT EXISTS websites (website_id SERIAL PRIMARY KEY, user_id integer, website_url varchar (100), website_status varchar (50), website_last_checked varchar (200), website_status_code varchar (50))`;
 
     await client.end();
     

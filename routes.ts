@@ -44,13 +44,9 @@ export const dashboard = async (ctx: RouterContext) => {
     await client.end();
 
     const urls = await websites.rows;
-
-    if(urls) {
-      ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {urls});
-    } else { 
-      ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {});
-    }
-
+    console.log(websites)
+    ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {urls});
+   
     } catch(err) {
       console.error(err)
     }

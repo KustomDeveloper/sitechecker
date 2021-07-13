@@ -46,6 +46,7 @@
   --green: #36af47;
   --yellow: #F0981B;
   --mint: #42BA9C;
+  --blue: #3f4a5a;
   --border-grey: rgba(49, 61, 79, 1);
   --input-grey: #8b939f;
 }
@@ -61,12 +62,13 @@ header {
   background: #2B373D;
 }
 .container {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 15px;
+  max-width: 1350px;
 } 
 .row-block {
   display: block;
+}
+.table td, .table th {
+  padding: 10px;
 }
 li {
   list-style: none;
@@ -89,6 +91,21 @@ h1 {
 h2 {
   font-size: 24px;
   margin: 15px 0;
+}
+
+/*Scrollbar styles*/
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2C373D;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2C373D;
 }
 
 
@@ -276,11 +293,14 @@ nav ul li {
   font-size: 13px;
   border: none !important;
 }
-.website-url {
-  color:#777;
-  font-weight: bold;
-  letter-spacing: 0.3px;
-  font-size: 13px;
+td.website-name {
+  min-width: 220px;
+}
+.website-name a  {
+  color: #fff;
+}
+.website-name a:hover {
+  color: var(--green);
 }
 .watchlist-title {
   width: 100%;
@@ -290,6 +310,9 @@ nav ul li {
   border-radius: 8px;
   margin-top: 15px;
   margin-left: 0;
+  max-height: 650px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .default-status button {
   display: inline-block;
@@ -324,15 +347,69 @@ td.action{
   margin-left: 0;
 }
 .success-box {
-border-radius: 15px;
-background: #000;
-
+  color:var(--green);
 }
 .error-box {
-
+  color:var(--yellow);
 }
 .last-check-box {
+  color:var(--mint);
+}
+.quickcheck-box {
+  padding: 20px;
+  border-radius: 5px;
+  background: #11161f;
+  text-align: center;
+  min-width: 200px;
+  max-width: 220px;
+}
+.quickcheck-box h3 {
+  font-weight: bold;
+  font-size: 28px;
+}
+.quickcheck-box img {
+  position: relative;
+  right: 4px;
+  top:-2px;
+}
+.quickcheck-box .stat {
+  font-size: 80px;
+  font-weight: bold;
+}
+.quickcheck-box .stat-text {
+  color: var(--blue);
+  font-weight: bold;
+  font-size: 14px;
+}
 
+/*Errors Display*/
+.error-display {
+  background-color: var(--lt-blue);
+  border-radius: 8px;
+  margin-top: 15px;
+  padding:15px;
+  margin-left: 0;
+}
+.error-display h3 {
+  font-size:14px;
+  font-weight: bold;
+}
+.error-display img {
+  position:relative;
+  right: 3px;
+  max-width: 16px;
+}
+.error-display hr {
+  background: rgba(255,255,255, 0.1);
+}
+.events-error-code event-text {
+  color: red;
+}
+.events-url event-text {
+  color: var(--yellow);
+}
+.events-last-checked-time event-text {
+  color: var(--mint);
 }
 
 /*Success & Errors*/
@@ -391,7 +468,34 @@ background: #000;
   margin-right: 15px;
 }
 
+/*Footer*/
+footer {
+  padding: 50px 0 0;
+  margin: 30px 0 0;
+  background: #000;
+  position: relative;
+}
+footer h3 {
+  font-size: 20px;
+  text-transform: uppercase;
+}
+footer ul {
+  margin: 0;
+  padding: 0;
+}
+.footer-logo img {
+  max-width: 200px;
+}
+.copyright {
+  background: rgb(26, 25, 25);
+  padding: 10px 0;
+  text-align: center;
+}
+
 @media screen and (max-width:920px) {
+  #dashboard {
+    padding: 0 10px;
+  }
   #dashboard .sub-menu li {
     margin: 0;
   }
@@ -402,6 +506,53 @@ background: #000;
   }
   #addwebsite {
     max-width: 150px;
+  }
+  .domain-panel {
+    background-color: var(--lt-blue);
+    border-radius: 8px;
+    margin-top: 15px;
+    margin-left: 0;
+    max-height: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+  td.website-name {
+    min-width: 0;
+    font-size: 12px;
+  }
+  #dashboard h2#qc-title {
+    margin-top: 15px;
+  }
+  .quick-display .col-md-4 {
+    width: auto;
+    padding: 0;
+    margin: 0 auto;
+  }
+  .quickcheck-box {
+    padding: 10px;
+    min-width: 0;
+    max-width: 120px;
+  }
+  .quickcheck-box h3 {
+    font-size: 13px;
+  }
+  .quickcheck-box .stat {
+    font-size: 50px;
+  }
+  .quickcheck-box img {
+    max-width: 12px;
+  }
+  .quickcheck-box .stat-text {
+    font-size: 11px;
+  }
+}
+@media screen and (max-width:330px) {
+  .quick-display .col-md-4 {
+    width: 100%;
+  }
+  .quickcheck-box {
+    max-width: 100%;
+    margin-bottom: 15px;
   }
 }
 

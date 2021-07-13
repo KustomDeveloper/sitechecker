@@ -24,25 +24,15 @@ router
 
 .delete('/delete-website', deleteWebsite)
 
-//Create tables if not created
-// createTables(client, "connected");
+// Create tables if not created
+createTables(client, "connected");
 
 //Add routes
 app.use(router.routes());
 app.use(router.allowedMethods());
 app.use(staticFileMiddleware);
 
-// (async () => {
-//   await client.connect();
-//   console.log(client);
-//   await client.end();
-// })()
-
-
-//encryptPassword('testing');
 console.log(`Server Running on port: ${PORT}`);
-
-
 
 //Show errors that would otherwise be hidden 
 app.addEventListener('error', event => {
@@ -54,16 +44,28 @@ cron('1 */5 * * * *', () => {
   //Check website status every 5 minutes
   (async () => {
     try {
+      const beforeTime = new Date().getTime();
       const websites:any = await getAllWebsites();
+
       if(websites) {
-        for(let i=0; i < websites.length; i++) {
+        for(let i = 0; i < websites.length; i++) {
           let url:string = websites[i].website_url;
           let id:number = websites[i].website_id;
 
           if(url) {
             await checkWebsite(url, id);
+
+            // Check sitecheck time
+            if(i === websites.length - 1) {
+              const afterTime = new Date().getTime();
+              const finalTime = afterTime - beforeTime;
+              const seconds = finalTime / 1000;
+
+              console.log(`Finished check in: ${seconds} seconds`);
+            }
+
           } else {
-            console.log('error')
+            console.log('cron job error')
           }
         }
       }

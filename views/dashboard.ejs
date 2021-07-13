@@ -19,8 +19,8 @@
       <div class="col-md-5">
         <div><h2>Domains</h2></div>
         <div class="domain-panel table-responsive">
-            <table class="table">
-          <% if (urls) { %>
+          <table class="table">
+            <% if (urls.length > 0) { %>
               <% var cleanUrls = []; %>
               <% for(var i=0; i < urls.length; i++) { %>
                 <% cleanUrls.push(urls[i].website_url.replace(/(^\w+:|^)\/\//, '')) %>
@@ -29,7 +29,6 @@
                   <thead>
                     <tr>
                       <th class="title-name">Name</th>
-                      <th class="title-url" >Url</th>
                       <th class="title-status">Status</th>
                       <th class="title-action">Action</th>
                     </tr>
@@ -40,15 +39,14 @@
                   <% } %>
 
                     <tr>
-                      <td class="website-name"><%= cleanUrls[i] %></td>
-                      <td class="website-url"><%= urls[i].website_url %></td>
+                      <td class="website-name"><a target="_blank"href="<%= urls[i].website_url %>"><%= cleanUrls[i] %></a></td>
 
                       <% if(urls[i].website_status === 'Website is up') { %>
-                      <td class="default-status"><button>Running smoothly</button></td>
-                      <% } else if(urls[i].website_status === 'Website is down') { %>
-                      <td class="default-status website-down"><button>Website is down</button></td>
-                      <% } else { %>
-                      <td class="default-status unknown"><button>Unknown</button></td>
+                        <td class="default-status"><button>Running smoothly</button></td>
+                        <% } else if(urls[i].website_status === 'Website is down') { %>
+                        <td class="default-status website-down"><button>Website is down</button></td>
+                        <% } else { %>
+                        <td class="default-status unknown"><button>Unknown</button></td>
                       <% } %>
 
                       <td class="action">
@@ -66,7 +64,7 @@
           </div><!--.col-md-5-->
 
           <div class="col-md-7">
-            <div><h2>Quick Look</h2></div>
+            <div><h2 id="qc-title">Quick Check</h2></div>
             <div class="quick-display">
               <% 
               const websiteUpArray = [];
@@ -89,37 +87,71 @@
                 <div class="row">
 
                   <div class="col-md-4">
-                    <div class="success-box">
-                      <h3>Success</h3>
-                      <%= websiteUpStatus %>
+                    <div class="quickcheck-box success-box">
+                      <h3><img src="/img/green-shield.png">Success</h3>
+                      <div class="stat"><%= websiteUpStatus %></div>
+                      <div class="stat-text">Websites Up</div>
                     </div>
                   </div><!--.col-md-4-->
 
                   <div class="col-md-4">
-                    <div class="error-box">
-                      <h3>Errors</h3>
-                      <%= websiteDownStatus %>
+                    <div class="quickcheck-box error-box">
+                      <h3><img src="/img/orange-shield.png">Errors</h3>
+                      <div class="stat"><%= websiteDownStatus %></div>
+                      <div class="stat-text">Websites Down</div>
                     </div>
                   </div><!--.col-md-4-->
 
                   <div class="col-md-4">
-                    <div class="last-check-box">
-                      <% 
-                      const lastChecked = urls[0].website_last_checked;
-                      const currentTime = new Date().getTime(); 
-                      const timeLeft = currentTime - lastChecked;
-                      const minutes = Math.round(timeLeft / 60000);
+                    <div class="quickcheck-box last-check-box">
+                      <%
+                        const lastChecked = urls[0].website_last_checked;
+                        const currentTime = new Date().getTime(); 
+                        const timeLeft = currentTime - lastChecked;
+                        const minutes = Math.round(timeLeft / 60000);
                       %>
-
-                      <h3>Last Check</h3>
-                      <%= minutes %>
+                      <h3><img src="/img/mint-shield.png">Last Check</h3>
+                      <div class="stat"><%= minutes %></div>
+                      <div class="stat-text">Minute(s) Ago</div>
                     </div>
                   </div><!--.col-md-4-->
 
                 </div><!--.row-->
               </div><!--.container-->
             </div><!--.quick-display-->
+            <div class="error-display">
+              <h3><img src="/img/mint-shield.png">Last SiteChecker Events</h3>
+              <hr />
+              <%
+              for(var i=0; i < urls.length; i++) { 
+                if(urls[i].website_status_code === "500" ) { 
+                  const currentDate = new Date();
+                  const timeChecked = currentDate - urls[i].website_last_checked;
+                  const lastCheckedTime = Math.round(timeChecked / 60000);  %>       
+
+                  <div class="websites-events">
+                    <span class="events-url"><event-text><%= urls[i].website_url %></event-text></span>
+                    <span><event-text>is down</event-text></span>
+                    <span class="events-error-code">with a 
+                      <event-text><%= urls[i].website_status_code %> error</event-text> 
+                    </span>
+                    <span class="events-last-checked-time"> and was last checked 
+                      <event-text><%= lastCheckedTime %> minute(s)</event-text> ago 
+                    </span>
+                  </div>
+                  
+              <%  } 
+              } 
+              %>
+
+            </div>
           </div>
+        <% } else { %>
+
+          <div class="no-websites">
+            <h2>No websites to check. Add a website.</h2>
+          </div>
+
         <% } %>
  
   </div><!--.row-->
