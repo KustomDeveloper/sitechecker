@@ -455,8 +455,11 @@ td.action{
 footer {
   padding: 50px 0 0;
   margin: 30px 0 0;
-  background: #000;
-  position: relative;
+  background: #11161f;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
 footer h3 {
   font-size: 20px;
@@ -470,9 +473,22 @@ footer ul {
   max-width: 200px;
 }
 .copyright {
-  background: rgb(26, 25, 25);
+  background: rgb(43 55 61);
   padding: 10px 0;
   text-align: center;
+}
+.copyright img {
+  width: 100%;
+  max-width: 30px;
+}
+.copyright .fa-heart {
+  color: red;
+}
+.email-link {
+  color: var(--yellow);
+}
+.freelance-text {
+  color:var(--input-grey);
 }
 
 /*Responsive*/
