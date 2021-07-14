@@ -4,6 +4,10 @@ import { client, createUser } from "./db.ts";
 import "https://deno.land/x/dotenv/load.ts";
 import { create, getNumericDate, decode } from "https://deno.land/x/djwt@v2.2/mod.ts";
 import { setCookie, getCookies, deleteCookie } from "https://deno.land/std/http/cookie.ts";
+import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
+
+
+
 
 /* 
 * Controllers
@@ -44,7 +48,7 @@ export const dashboard = async (ctx: RouterContext) => {
     await client.end();
 
     const urls = await websites.rows;
-    console.log(websites)
+
     ctx.response.body = await renderFileToString(`${Deno.cwd()}/views/dashboard.ejs`, {urls});
    
     } catch(err) {
@@ -72,8 +76,11 @@ export const registerUser = async (ctx: RouterContext) => {
         ctx.response.status = 400; //Bad Request
 
       } else {
+        //Encrypt Password
+        const hashedPass = await bcrypt.hash(pass);
+
         //Create new user
-        createUser(client, firstName, lastName, email, pass);
+        createUser(client, firstName, lastName, email, hashedPass);
         ctx.response.body = { message: "ok" };
         ctx.response.status = 200; //Success
       }
@@ -112,7 +119,10 @@ export const loginUser = async (ctx: RouterContext) => {
         //Get password from object
         const realPass = storedPass.password;
 
-        if(pass === realPass) {
+        const comparePass = await bcrypt.compare(pass, realPass);
+        console.log(comparePass)
+
+        if(comparePass) {
           //Get user id
           const getId = await client.queryObject`
           SELECT user_id FROM users WHERE user_email = ${email}`;

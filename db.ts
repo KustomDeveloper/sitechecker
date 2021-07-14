@@ -20,7 +20,7 @@ export async function createTables(client: any, msg: any) {
     
     //Create users table on database if not created yet
     const users_table = await client.queryObject`
-    CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, first_name varchar (50), last_name varchar (50), user_email varchar (50), password varchar (35))`;
+    CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, first_name varchar (50), last_name varchar (50), user_email varchar (50), password varchar (200))`;
 
     //Create websites table on database if not created yet
     const websites_table = await client.queryObject`

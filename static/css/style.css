@@ -202,6 +202,9 @@ nav ul li {
 
 
 /*Dashboard*/
+#dashboard .no-websites h2 {
+  margin: 300px 0;
+}
 #dashboard .col-md-7, .col-md-5 {
   padding: 0 10px 0 0;
 }
@@ -402,15 +405,6 @@ td.action{
 .error-display hr {
   background: rgba(255,255,255, 0.1);
 }
-.events-error-code event-text {
-  color: red;
-}
-.events-url event-text {
-  color: var(--yellow);
-}
-.events-last-checked-time event-text {
-  color: var(--mint);
-}
 
 /*Success & Errors*/
 #success-flash {
@@ -456,17 +450,6 @@ td.action{
   left:2px;
 }
 
-/*Unauthorized*/
-.unauth-title {
-  font-size: 32px;
-  text-align: center;
-}
-.unauth-btns {
-  text-align: center;
-}
-.unauth-btns button {
-  margin-right: 15px;
-}
 
 /*Footer*/
 footer {
@@ -492,6 +475,7 @@ footer ul {
   text-align: center;
 }
 
+/*Responsive*/
 @media screen and (max-width:920px) {
   #dashboard {
     padding: 0 10px;
@@ -544,6 +528,11 @@ footer ul {
   }
   .quickcheck-box .stat-text {
     font-size: 11px;
+  }
+}
+@media screen and (max-width:480px) {
+  #dashboard .no-websites h2 {
+    margin: 150px 0;
   }
 }
 @media screen and (max-width:330px) {
