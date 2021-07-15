@@ -55,9 +55,6 @@ body {
   color:#fff;
   background: var(--navy-blue);
 }
-#dashboard {
-  font-family: 'Source Sans Pro';
-}
 header {
   background: #2B373D;
 }
@@ -200,8 +197,25 @@ nav ul li {
   padding: 10px 0;
 }
 
+/*Login*/
+#login-user-form{
+  width:100%;
+  max-width: 400px;
+  margin: 50px auto 0;
+}
+
+/*Register*/
+#register-user-form{
+  width:100%;
+  max-width: 400px;
+  margin: 50px auto 0;
+}
 
 /*Dashboard*/
+#dashboard {
+  font-family: 'Source Sans Pro';
+  margin-bottom: 180px;
+}
 #dashboard .no-websites h2 {
   margin: 300px 0;
 }
@@ -384,6 +398,10 @@ td.action{
   font-weight: bold;
   font-size: 14px;
 }
+.websites-events {
+  margin-bottom: 5px;
+  font-size: 15px;
+}
 
 /*Errors Display*/
 .error-display {
@@ -460,6 +478,7 @@ footer {
   left: 0;
   bottom: 0;
   width: 100%;
+  font-family: 'Source Sans Pro';
 }
 footer h3 {
   font-size: 20px;
@@ -476,10 +495,13 @@ footer ul {
   background: rgb(43 55 61);
   padding: 10px 0;
   text-align: center;
+  color: #7b8082;
+  font-family: 'Source Sans Pro';
 }
 .copyright img {
   width: 100%;
   max-width: 30px;
+  margin-top: -10px;
 }
 .copyright .fa-heart {
   color: red;
@@ -545,10 +567,38 @@ footer ul {
   .quickcheck-box .stat-text {
     font-size: 11px;
   }
+  .logo, nav {
+    width: 100%;
+    max-width: 50%;
+  }
+
 }
 @media screen and (max-width:480px) {
+  #dashboard {
+    margin-bottom: 40px;
+  }
   #dashboard .no-websites h2 {
     margin: 150px 0;
+  }
+  .footer-logo img {
+    margin: 0 auto;
+    display: block;
+  }
+  .freelance-text {
+    text-align: center;
+  }
+  footer {
+    padding: 20px 0;
+    position: relative;
+  }
+  #login-user-form{
+    margin: 50px 15px;
+  }
+  #register-user-form{
+    margin: 50px 15px;
+  }
+  .form-control {
+    max-width: 90%;
   }
 }
 @media screen and (max-width:330px) {

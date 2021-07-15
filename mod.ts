@@ -25,7 +25,7 @@ router
 .delete('/delete-website', deleteWebsite)
 
 // Create tables if not created
-createTables(client, "connected");
+// createTables(client, "connected");
 
 //Add routes
 app.use(router.routes());

@@ -38,6 +38,8 @@ export async function checkWebsite(url: string, id: number) {
     update websites set website_status=${websiteStatus},website_last_checked=${currentTime},website_status_code=${status} where website_id=${id}`;
     await client.end();
 
+  } finally {
+    await client.end();
   }
 }
 
@@ -62,7 +64,9 @@ export async function getAllWebsites() {
   } catch(err) {
     await client.end();
     console.log(err)
-  } 
+  } finally {
+    await client.end();
+  }
 }
 
 

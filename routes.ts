@@ -120,7 +120,6 @@ export const loginUser = async (ctx: RouterContext) => {
         const realPass = storedPass.password;
 
         const comparePass = await bcrypt.compare(pass, realPass);
-        console.log(comparePass)
 
         if(comparePass) {
           //Get user id

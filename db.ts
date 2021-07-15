@@ -13,12 +13,13 @@ export var client = new Client({
 //Create Tables
 export async function createTables(client: any, msg: any) {
   try {
-    //Connect to database
-    await client.connect();
+
 
     if(msg != null && typeof msg == "string") console.log(msg);
-    
+
     //Create users table on database if not created yet
+    await client.connect();
+    
     const users_table = await client.queryObject`
     CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, first_name varchar (50), last_name varchar (50), user_email varchar (50), password varchar (200))`;
 
@@ -38,10 +39,8 @@ export async function createUser(client:any, first: string, last: string, email:
   try{
     //Connect to database
     await client.connect();
-
     const addUser = await client.queryObject`
     INSERT INTO users (first_name, last_name, user_email, password) VALUES (${first}, ${last}, ${email}, ${password})`;
-    
     await client.end();
 
   } catch(err) {
