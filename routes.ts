@@ -7,8 +7,6 @@ import { setCookie, getCookies, deleteCookie } from "https://deno.land/std/http/
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
 
 
-
-
 /* 
 * Controllers
 */ 
@@ -65,25 +63,39 @@ export const registerUser = async (ctx: RouterContext) => {
     const pass = body.data.pass;
 
     if(firstName !== '' || lastName !== '' || email !== '' || pass !== '') {
-      //Check if email already exists
-      await client.connect();
-      const emailExists = await client.queryObject`
-      SELECT user_email FROM users WHERE user_email = ${email}`;
-      await client.end();
+      //Force password length
+      if(pass.length >= 7) {
+          //Force strong passwords
+          if( pass.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{7,}$/) ) {
+            //Check if email already exists
+            await client.connect();
+            const emailExists = await client.queryObject`
+            SELECT user_email FROM users WHERE user_email = ${email}`;
+            await client.end();
 
-      if(emailExists.rows[0]) {
-        ctx.response.body = { message: "Email already exists" };
-        ctx.response.status = 400; //Bad Request
+            if(emailExists.rows[0]) {
+              ctx.response.body = { message: "Email already exists" };
+              ctx.response.status = 400; //Bad Request
+
+            } else {
+              //Encrypt Password
+              const hashedPass = await bcrypt.hash(pass);
+
+              //Create new user
+              createUser(client, firstName, lastName, email, hashedPass);
+              ctx.response.body = { message: "ok" };
+              ctx.response.status = 200; //Success
+            } 
+        } else {
+          ctx.response.body = { message: "Password must be at least 8 characters, including one lowercase (a-z), one uppercase (A-Z ) and one number (1-9)" };
+          ctx.response.status = 400; //Bad request
+        }
 
       } else {
-        //Encrypt Password
-        const hashedPass = await bcrypt.hash(pass);
-
-        //Create new user
-        createUser(client, firstName, lastName, email, hashedPass);
-        ctx.response.body = { message: "ok" };
-        ctx.response.status = 200; //Success
+        ctx.response.body = { message: "Password must be at least 7 characters" };
+        ctx.response.status = 400; //Bad request
       }
+
     } else {
       ctx.response.body = { message: "Registration Error" };
       ctx.response.status = 400; //Bad request
