@@ -1,4 +1,4 @@
-import { Application, Router, send } from "https://deno.land/x/oak/mod.ts";
+import { Application, Router, send } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 import { home, login, register, dashboard, registerUser, loginUser, addWebsite, deleteWebsite, logout } from "./routes.ts";
 import { createTables, client } from "./db.ts";
 import { authenticateUser } from "./authenticate.ts";
@@ -25,7 +25,7 @@ router
 .delete('/delete-website', deleteWebsite)
 
 // Create tables if not created
-// createTables(client, "connected");
+createTables(client, "connected");
 
 //Add routes
 app.use(router.routes());
@@ -49,8 +49,8 @@ cron('1 */5 * * * *', () => {
 
       if(websites) {
         for(let i = 0; i < websites.length; i++) {
-          let url:string = websites[i].website_url;
-          let id:number = websites[i].website_id;
+          const url:string = websites[i].website_url;
+          const id:number = websites[i].website_id;
 
           if(url) {
             await checkWebsite(url, id);

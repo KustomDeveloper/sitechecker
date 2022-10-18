@@ -1,11 +1,19 @@
-import { RouterContext } from "https://deno.land/x/oak/mod.ts";
+import { RouterContext } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 import { renderFileToString } from "https://deno.land/x/dejs@0.9.3/mod.ts";
 import { client, createUser } from "./db.ts";
-import "https://deno.land/x/dotenv/load.ts";
-import { create, getNumericDate, decode } from "https://deno.land/x/djwt@v2.2/mod.ts";
-import { setCookie, getCookies, deleteCookie } from "https://deno.land/std/http/cookie.ts";
+import "https://deno.land/x/dotenv@v3.2.0/load.ts";
+import { create, decode, verify } from "https://deno.land/x/djwt@v2.7/mod.ts";
+import { setCookie, getCookies, deleteCookie } from "https://deno.land/std@0.159.0/http/cookie.ts";
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
 
+//JWT key
+export const key = await crypto.subtle.generateKey(
+  { name: "HMAC", hash: "SHA-512" },
+  true,
+  ["sign", "verify"]
+);
+
+export const rawKey = await crypto.subtle.exportKey('raw', key);
 
 /* 
 * Controllers
@@ -24,10 +32,10 @@ export const login = async (ctx: RouterContext) => {
 
 export const dashboard = async (ctx: RouterContext) => {
   try {
-    //Get cookie values
-    const jwt = getCookies(ctx.request);
-    const token: string = jwt.authorization || ""; 
-    
+    const jwt = getCookies( ctx.request.headers );
+
+    const token: string = jwt.authorization || "";  
+
     //Decode jwt token
     const [header, payload, signature ] = decode(token);
 
@@ -65,8 +73,6 @@ export const registerUser = async (ctx: RouterContext) => {
     if(firstName !== '' || lastName !== '' || email !== '' || pass !== '') {
       //Force password length
       if(pass.length >= 7) {
-          //Force strong passwords
-          if( pass.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{7,}$/) ) {
             //Check if email already exists
             await client.connect();
             const emailExists = await client.queryObject`
@@ -86,11 +92,6 @@ export const registerUser = async (ctx: RouterContext) => {
               ctx.response.body = { message: "ok" };
               ctx.response.status = 200; //Success
             } 
-        } else {
-          ctx.response.body = { message: "Password must be at least 8 characters, including one lowercase (a-z), one uppercase (A-Z ) and one number (1-9)" };
-          ctx.response.status = 400; //Bad request
-        }
-
       } else {
         ctx.response.body = { message: "Password must be at least 7 characters" };
         ctx.response.status = 400; //Bad request
@@ -140,18 +141,11 @@ export const loginUser = async (ctx: RouterContext) => {
 
           const userId: any = getId.rows[0];
 
-          //JWT Secret
-          const jwtSecret: string = Deno.env.get('JWT_SECRET') as string;
-
           //Create token
-          const jwt = await create(
-            { alg: "HS512", typ: "JWT", exp: getNumericDate(60 * 60 * 24) },
-            { user_id: userId.user_id },
-            jwtSecret
-          );
+          const jwt = await create({ alg: "HS512", typ: "JWT" }, { user_id: userId.user_id }, key);
 
           //Set http only cookie with jwt token 
-          setCookie(ctx.response, { name: "authorization", value: jwt }); 
+          setCookie(ctx.response.headers, { name: "authorization", value: jwt }); 
 
           //close db connection
           await client.end();
@@ -198,7 +192,7 @@ export const logout = async (ctx: RouterContext) => {
     const logout = body.data.logout;
 
     if(logout) {
-      deleteCookie(ctx.response, "authorization"); 
+      deleteCookie(ctx.response.headers, "authorization"); 
 
       //Send ok response
       ctx.response.body = { message: "ok" };
@@ -218,7 +212,7 @@ export const addWebsite = async (ctx: RouterContext) => {
     if(website) {
 
       //Get cookie values
-      const jwt = getCookies(ctx.request);
+      const jwt = getCookies(ctx.request.headers);
       const token: string = jwt.authorization || ""; 
       
       //Decode jwt token
@@ -259,17 +253,19 @@ export const deleteWebsite = async (ctx: RouterContext) => {
 
     if(website_id) {
       //Get cookie values
-      const jwt = getCookies(ctx.request);
+      const jwt = getCookies(ctx.request.headers);
       const token: string = jwt.authorization || ""; 
       
       //Decode jwt token
       const [header, payload, signature] = decode(token);
 
+      // console.log(header, payload, signature);
+
       //Define object
       const data: any = payload as object;
 
       //Get user id
-      const user_id = data[Object.keys(data)[0]]
+      const user_id = data[Object.keys(data)[0]];
 
       await client.connect();
       

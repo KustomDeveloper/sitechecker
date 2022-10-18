@@ -1,19 +1,25 @@
 import { Client } from "https://deno.land/x/postgres/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
 
-//DB Creds
-export var client = new Client({
-  database: Deno.env.get('DB'),
-  user: Deno.env.get('DB_USER'),
-  hostname: Deno.env.get('HOSTNAME'),
-  password: Deno.env.get('PASSWORD'),
-  port: Deno.env.get('DB_PORT')
-}) 
+
+//bit.io DB
+const config = Deno.env.get('DB_CONNECTION_STRING');
+export const client = new Client(config);
+
+
+// DB Creds
+// export const client = new Client({
+//   database: Deno.env.get('DB'),
+//   user: Deno.env.get('DB_USER'),
+//   hostname: Deno.env.get('HOSTNAME'),
+//   password: Deno.env.get('PASSWORD'),
+//   port: Deno.env.get('DB_PORT')
+// }) 
+
 
 //Create Tables
 export async function createTables(client: any, msg: any) {
   try {
-
 
     if(msg != null && typeof msg == "string") console.log(msg);
 
@@ -39,6 +45,7 @@ export async function createUser(client:any, first: string, last: string, email:
   try{
     //Connect to database
     await client.connect();
+
     const addUser = await client.queryObject`
     INSERT INTO users (first_name, last_name, user_email, password) VALUES (${first}, ${last}, ${email}, ${password})`;
     await client.end();
