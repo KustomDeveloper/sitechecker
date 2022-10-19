@@ -7,7 +7,7 @@ import { staticFileMiddleware } from "./staticFileMiddleware.ts";
 import { cron } from 'https://deno.land/x/deno_cron@v1.0.0/cron.ts';
 import "https://deno.land/x/dotenv@v3.2.0/load.ts";
 
-const PORT = Deno.env.get('PORT');
+const PORT = 8000;
 const app = new Application(); 
 const router = new Router();
 
