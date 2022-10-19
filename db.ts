@@ -1,21 +1,9 @@
-import { Client } from "https://deno.land/x/postgres/mod.ts";
-import "https://deno.land/x/dotenv/load.ts";
-
+import { Client } from "https://deno.land/x/postgres@v0.16.1/mod.ts";
+import "https://deno.land/x/dotenv@v3.2.0/load.ts";
 
 //bit.io DB
 const config = Deno.env.get('DB_CONNECTION_STRING');
 export const client = new Client(config);
-
-
-// DB Creds
-// export const client = new Client({
-//   database: Deno.env.get('DB'),
-//   user: Deno.env.get('DB_USER'),
-//   hostname: Deno.env.get('HOSTNAME'),
-//   password: Deno.env.get('PASSWORD'),
-//   port: Deno.env.get('DB_PORT')
-// }) 
-
 
 //Create Tables
 export async function createTables(client: any, msg: any) {

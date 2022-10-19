@@ -241,6 +241,7 @@ export const addWebsite = async (ctx: RouterContext) => {
     }
 
   } catch(err) {
+    console.error(err);
     ctx.response.body = { message: "error" };
     ctx.response.status = 500; //err
   }
@@ -258,8 +259,6 @@ export const deleteWebsite = async (ctx: RouterContext) => {
       
       //Decode jwt token
       const [header, payload, signature] = decode(token);
-
-      // console.log(header, payload, signature);
 
       //Define object
       const data: any = payload as object;
@@ -287,6 +286,7 @@ export const deleteWebsite = async (ctx: RouterContext) => {
     } 
 
   } catch(err) {
+    console.error(err);
     ctx.response.body = { message: "You must be authorized to delete the website" };
     ctx.response.status = 401; //err
   }

@@ -4,9 +4,10 @@ import { createTables, client } from "./db.ts";
 import { authenticateUser } from "./authenticate.ts";
 import { checkWebsite, getAllWebsites } from "./sitechecker.ts";
 import { staticFileMiddleware } from "./staticFileMiddleware.ts";
-import {cron} from 'https://deno.land/x/deno_cron/cron.ts';
+import { cron } from 'https://deno.land/x/deno_cron@v1.0.0/cron.ts';
+import "https://deno.land/x/dotenv@v3.2.0/load.ts";
 
-const PORT = 8000;
+const PORT = Deno.env.get('PORT');
 const app = new Application(); 
 const router = new Router();
 
@@ -36,7 +37,7 @@ console.log(`Server Running on port: ${PORT}`);
 
 //Show errors that would otherwise be hidden 
 app.addEventListener('error', event => {
-  console.log(event.error);
+  console.error(event.error);
 })
 
 // Run cron job every 5 minutes
@@ -65,7 +66,7 @@ cron('1 */5 * * * *', () => {
             }
 
           } else {
-            console.log('cron job error')
+            console.error('cron job error')
           }
         }
       }
