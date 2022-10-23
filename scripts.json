@@ -1,5 +1,5 @@
 {
-  "$schema": "https://deno.land/x/denon@2.4.7/schema.json",
+  "$schema": "https://deno.land/x/denon@2.5.0/schema.json",
   "allow": ["net", "env", "read", "write"],
   "unstable": true,
   "reload": true,

@@ -5,6 +5,7 @@ import "https://deno.land/x/dotenv@v3.2.0/load.ts";
 import { create, decode, verify } from "https://deno.land/x/djwt@v2.7/mod.ts";
 import { setCookie, getCookies, deleteCookie } from "https://deno.land/std@0.159.0/http/cookie.ts";
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
+import { cronStatus } from "./mod.ts";
 
 //JWT key
 export const key = await crypto.subtle.generateKey(
@@ -291,4 +292,21 @@ export const deleteWebsite = async (ctx: RouterContext) => {
     ctx.response.status = 401; //err
   }
 
+}
+
+export const reloadBrowser = async (ctx: RouterContext) => {
+  try{
+    const body = await ctx.request.body().value;
+
+    if(cronStatus === false) {
+      ctx.response.body = { message: "ok" };
+      ctx.response.status = 200;
+    } else {
+      ctx.response.body = { message: "pause" };
+      ctx.response.status = 401;
+    }
+
+  } catch(err) {
+    console.error(err)
+  }
 }

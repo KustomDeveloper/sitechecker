@@ -1,4 +1,4 @@
-import { soxa } from "https://deno.land/x/soxa/mod.ts";
+import { soxa } from "https://deno.land/x/soxa@1.4/mod.ts";
 import { client } from "./db.ts";
 
 export async function checkWebsite(url: string, id: number) {

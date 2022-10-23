@@ -1,5 +1,27 @@
 //Define
 var isValid = false;
+const currentUrl = window.location.protocol + '//' + window.location.host;
+
+
+jQuery('#reload-icon').on('click', function(e) {
+  e.preventDefault();
+  async function reloadWebsite() {
+    const res = await fetch('/reload-browser')
+      .then(res => {
+      return res.json()
+      })
+      .then(res => {
+        if(res.message === "ok") {
+          location.reload()
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  reloadWebsite();
+})
 
 jQuery('#success-flash .cross-icon').on('click', function(e) {
   e.preventDefault();
@@ -70,7 +92,7 @@ jQuery('.delete-website').on('click', function(e) {
           .then(data => {
           
             if(data.message === "ok") {
-              window.location.href = "http://localhost:8000/login" 
+              window.location.href = `${currentUrl}/login` 
 
             } else {
               console.log("There was an error.")
@@ -214,7 +236,7 @@ jQuery('#login-user').on('click', (e) => {
 
               } else {
                 //On Success: Redirect to login page
-                window.location.href = `http://localhost:8000/dashboard`;
+                window.location.href = `${currentUrl}/dashboard`;
               }
             }
 
